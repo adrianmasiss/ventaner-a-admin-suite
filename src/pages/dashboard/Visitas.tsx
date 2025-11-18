@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Plus, Calendar, DollarSign, CheckCircle2, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { VisitForm } from "@/components/visits/VisitForm";
 import { VisitsTable } from "@/components/visits/VisitsTable";
 import { VisitFilters } from "@/components/visits/VisitFilters";
+import { StatCard } from "@/components/dashboard/StatCard";
 
 export interface Visit {
   id: string;
@@ -107,14 +108,67 @@ const Visitas = () => {
     setEditingVisit(null);
   };
 
+  // Calculate statistics
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  
+  const thisMonthVisits = visits.filter((v) => {
+    const visitDate = new Date(v.start_time);
+    return visitDate.getMonth() === currentMonth && visitDate.getFullYear() === currentYear;
+  });
+
+  const totalVisitsThisMonth = thisMonthVisits.length;
+  const pendingAmount = thisMonthVisits
+    .filter((v) => v.status === "pending")
+    .reduce((sum, v) => sum + v.total_cost, 0);
+  const paidAmount = thisMonthVisits
+    .filter((v) => v.status === "paid")
+    .reduce((sum, v) => sum + v.total_cost, 0);
+  const averageCost = thisMonthVisits.length > 0 
+    ? thisMonthVisits.reduce((sum, v) => sum + v.total_cost, 0) / thisMonthVisits.length 
+    : 0;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Control de Visitas</h1>
-        <Button onClick={() => setIsFormOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" />
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Control de Visitas</h1>
+          <p className="text-muted-foreground mt-1">Gestiona y monitorea todas las visitas</p>
+        </div>
+        <Button onClick={() => setIsFormOpen(true)} size="lg" className="gap-2">
+          <Plus className="h-5 w-5" />
           Nueva Visita
         </Button>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title="Total Visitas Este Mes"
+          value={totalVisitsThisMonth}
+          icon={Calendar}
+          subtitle={`${thisMonthVisits.length} visitas registradas`}
+        />
+        <StatCard
+          title="Pendientes de Cobro"
+          value={`₡${pendingAmount.toLocaleString()}`}
+          icon={DollarSign}
+          gradient="warning"
+          subtitle={`${thisMonthVisits.filter(v => v.status === "pending").length} visitas pendientes`}
+        />
+        <StatCard
+          title="Total Cobrado"
+          value={`₡${paidAmount.toLocaleString()}`}
+          icon={CheckCircle2}
+          gradient="success"
+          subtitle="Pagos completados este mes"
+        />
+        <StatCard
+          title="Promedio por Visita"
+          value={`₡${Math.round(averageCost).toLocaleString()}`}
+          icon={TrendingUp}
+          subtitle="Costo promedio"
+        />
       </div>
 
       <VisitFilters
@@ -124,11 +178,11 @@ const Visitas = () => {
         setDateFilter={setDateFilter}
       />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Listado de Visitas</CardTitle>
+      <Card className="shadow-sm">
+        <CardHeader className="border-b bg-muted/30">
+          <CardTitle className="text-xl">Listado de Visitas</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <VisitsTable
             visits={filteredVisits}
             onEdit={handleEdit}
