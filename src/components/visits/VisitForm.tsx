@@ -72,8 +72,9 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
       return null;
     }
 
-    // Número de visitas - se redondea hacia arriba (cualquier tiempo extra cuenta como visita)
-    const numVisits = Math.ceil(totalHours / 3);
+    // Número de visitas - cuenta como visita adicional solo si sobran más de 30 minutos
+    // Ejemplos: 3h15min = 1 visita, 3h30min = 2 visitas, 4h = 2 visitas
+    const numVisits = Math.floor((totalHours + 2.5) / 3);
     const totalCost = numVisits * numWorkers * COST_PER_WORKER_PER_VISIT;
 
     return {
