@@ -16,16 +16,27 @@ export const DashboardHeader = memo(({ user }: DashboardHeaderProps) => {
   const handleLogout = useCallback(async () => {
     try {
       setIsLoading(true);
-      // Cerrar sesión en Supabase
-      await supabase.auth.signOut();
-      // El onAuthStateChange en DashboardLayout se encargará de la redirección
+      
+      // Cerrar sesión en Supabase - esto limpia localStorage y cookies
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error("Error en signOut:", error);
+        // Forzar limpieza manual si hay error
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+      
       toast.success("Sesión cerrada exitosamente");
-    } catch (error: any) {
-      // Si hay error, forzamos la navegación
-      console.error("Error al cerrar sesión:", error);
+      
+      // Forzar recarga completa de la página para limpiar todo el estado
       window.location.href = "/auth";
-    } finally {
-      setIsLoading(false);
+    } catch (error: any) {
+      console.error("Error al cerrar sesión:", error);
+      // Limpiar manualmente y redirigir
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "/auth";
     }
   }, []);
 
