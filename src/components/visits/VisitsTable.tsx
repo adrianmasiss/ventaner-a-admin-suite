@@ -45,40 +45,40 @@ export const VisitsTable = ({ visits, onEdit, onDelete }: VisitsTableProps) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Fecha</TableHead>
-            <TableHead>Horario</TableHead>
-            <TableHead>Trabajadores</TableHead>
-            <TableHead>Horas</TableHead>
-            <TableHead>Visitas</TableHead>
-            <TableHead>Costo Total</TableHead>
-            <TableHead>Estado</TableHead>
-            <TableHead className="text-right">Acciones</TableHead>
+            <TableHead className="text-slate-900">Fecha</TableHead>
+            <TableHead className="text-slate-900">Horario</TableHead>
+            <TableHead className="text-slate-900">Trabajadores</TableHead>
+            <TableHead className="text-slate-900">Horas</TableHead>
+            <TableHead className="text-slate-900">Visitas</TableHead>
+            <TableHead className="text-slate-900">Costo Total</TableHead>
+            <TableHead className="text-slate-900">Estado</TableHead>
+            <TableHead className="text-right text-slate-900">Acciones</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {visits.map((visit) => (
             <TableRow key={visit.id}>
-              <TableCell className="font-medium">
+              <TableCell className="font-medium text-slate-900">
                 {format(new Date(visit.start_time), "dd MMM yyyy", { locale: es })}
               </TableCell>
-              <TableCell>
+              <TableCell className="text-slate-900">
                 {format(new Date(visit.start_time), "HH:mm")} -{" "}
                 {format(new Date(visit.end_time), "HH:mm")}
               </TableCell>
-              <TableCell>{visit.num_workers}</TableCell>
-              <TableCell>{visit.total_hours}h</TableCell>
-              <TableCell>{visit.num_visits}</TableCell>
-              <TableCell className="font-semibold">
+              <TableCell className="text-slate-900">{visit.num_workers}</TableCell>
+              <TableCell className="text-slate-900">{visit.total_hours}h</TableCell>
+              <TableCell className="text-slate-900">{visit.num_visits}</TableCell>
+              <TableCell className="font-semibold text-slate-900">
                 ₡{visit.total_cost.toLocaleString()}
               </TableCell>
               <TableCell>
                 {visit.status === "paid" ? (
-                  <Badge variant="default" className="bg-success">
+                  <Badge variant="default" className="bg-success text-white">
                     <CheckCircle className="h-3 w-3 mr-1" />
                     Pagado
                   </Badge>
                 ) : (
-                  <Badge variant="secondary">
+                  <Badge variant="secondary" className="text-slate-900">
                     <Clock className="h-3 w-3 mr-1" />
                     Pendiente
                   </Badge>

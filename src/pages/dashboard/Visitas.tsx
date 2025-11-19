@@ -138,7 +138,7 @@ const Visitas = () => {
         </div>
         <Button
           onClick={() => setIsFormOpen(true)}
-          className="btn-gradient-primary h-12 px-6 shadow-glow-blue hover-scale"
+          className="btn-gradient-primary h-12 px-6 shadow-glow-blue hover-scale text-white"
         >
           <Plus className="h-5 w-5 mr-2" />
           Nueva Visita
