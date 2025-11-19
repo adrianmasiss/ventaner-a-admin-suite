@@ -136,7 +136,7 @@ export const WorkerForm = ({ open, onClose, editingWorker, onSuccess }: WorkerFo
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle className="text-foreground">
+          <DialogTitle className="text-black">
             {editingWorker ? "Editar Trabajador" : "Nuevo Trabajador"}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
@@ -146,7 +146,7 @@ export const WorkerForm = ({ open, onClose, editingWorker, onSuccess }: WorkerFo
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="full-name">Nombre Completo</Label>
+            <Label htmlFor="full-name" className="text-black">Nombre Completo</Label>
             <Input
               id="full-name"
               value={fullName}
@@ -156,7 +156,7 @@ export const WorkerForm = ({ open, onClose, editingWorker, onSuccess }: WorkerFo
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone">Teléfono</Label>
+            <Label htmlFor="phone" className="text-black">Teléfono</Label>
             <Input
               id="phone"
               value={phone}
@@ -166,7 +166,7 @@ export const WorkerForm = ({ open, onClose, editingWorker, onSuccess }: WorkerFo
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="payment-type">Tipo de Pago</Label>
+            <Label htmlFor="payment-type" className="text-black">Tipo de Pago</Label>
             <Select value={paymentType} onValueChange={setPaymentType}>
               <SelectTrigger id="payment-type">
                 <SelectValue />
@@ -179,7 +179,7 @@ export const WorkerForm = ({ open, onClose, editingWorker, onSuccess }: WorkerFo
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="payment-rate">
+            <Label htmlFor="payment-rate" className="text-black">
               Tarifa ({paymentType === "daily" ? "por día" : "por hora"})
             </Label>
             <Input
