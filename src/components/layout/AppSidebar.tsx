@@ -1,4 +1,4 @@
-import { BarChart3, Users, Calendar } from "lucide-react";
+import { BarChart3, Users, Calendar, Wallet, Building2, History } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { memo } from "react";
@@ -19,6 +19,12 @@ const menuItems = [
   { title: "Listado de Visitas", url: "/dashboard/visitas", icon: Calendar },
   { title: "Trabajadores", url: "/dashboard/trabajadores", icon: Users },
   { title: "Estadísticas", url: "/dashboard/estadisticas", icon: BarChart3 },
+];
+
+const financialItems = [
+  { title: "Pagos a Trabajadores", url: "/dashboard/pagos-trabajadores", icon: Wallet },
+  { title: "Cobros a LLBean", url: "/dashboard/cobros-empresa", icon: Building2 },
+  { title: "Historial Financiero", url: "/dashboard/historial-financiero", icon: History },
 ];
 
 export const AppSidebar = memo(() => {
@@ -66,6 +72,40 @@ export const AppSidebar = memo(() => {
                         <item.icon 
                           className={`h-5 w-5 ${
                             isActive ? 'drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]' : ''
+                          }`} 
+                        />
+                        <span className="text-sm">{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup className="mt-6">
+          <SidebarGroupLabel className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-3 px-3">
+            Gestión Financiera
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-2">
+              {financialItems.map((item) => {
+                const isActive = currentPath === item.url;
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink
+                        to={item.url}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 ${
+                          isActive
+                            ? 'bg-gradient-to-r from-green-500/20 to-green-600/15 text-white font-semibold border-l-4 border-green-400 pl-3 shadow-[0_4px_12px_rgba(34,197,94,0.2)]'
+                            : 'text-slate-300 hover:bg-slate-700/30 hover:text-white'
+                        }`}
+                      >
+                        <item.icon 
+                          className={`h-5 w-5 ${
+                            isActive ? 'drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]' : ''
                           }`} 
                         />
                         <span className="text-sm">{item.title}</span>
