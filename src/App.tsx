@@ -4,9 +4,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import Auth from "./pages/Auth"; // No lazy para evitar problemas de autenticación
 
 const Index = lazy(() => import("./pages/Index"));
-const Auth = lazy(() => import("./pages/Auth"));
 const VisitasPage = lazy(() => import("./pages/dashboard/VisitasPage"));
 const TrabajadoresPage = lazy(() => import("./pages/dashboard/TrabajadoresPage"));
 const EstadisticasPage = lazy(() => import("./pages/dashboard/EstadisticasPage"));
