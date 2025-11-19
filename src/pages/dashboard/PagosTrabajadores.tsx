@@ -156,7 +156,7 @@ const PagosTrabajadores = () => {
       <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
         <DialogContent className="bg-white">
           <DialogHeader>
-            <DialogTitle className="text-foreground">Registrar Pago</DialogTitle>
+            <DialogTitle className="text-black">Registrar Pago</DialogTitle>
             <DialogDescription className="text-muted-foreground">
               {selectedWorker && <>
                   Registrando pago para {selectedWorker.worker_name}
@@ -168,12 +168,12 @@ const PagosTrabajadores = () => {
 
           <div className="space-y-4">
             <div>
-              <Label>Fecha de Pago</Label>
+              <Label className="text-black">Fecha de Pago</Label>
               <Input type="date" value={paymentDate} onChange={e => setPaymentDate(e.target.value)} />
             </div>
 
             <div>
-              <Label>Método de Pago</Label>
+              <Label className="text-black">Método de Pago</Label>
               <Select value={paymentMethod} onValueChange={setPaymentMethod}>
                 <SelectTrigger>
                   <SelectValue />
@@ -212,7 +212,7 @@ const PagosTrabajadores = () => {
       <Dialog open={isDatesDialogOpen} onOpenChange={setIsDatesDialogOpen}>
         <DialogContent className="bg-white">
           <DialogHeader>
-            <DialogTitle className="text-foreground">Fechas Trabajadas</DialogTitle>
+            <DialogTitle className="text-black">Fechas Trabajadas</DialogTitle>
             <DialogDescription className="text-muted-foreground">
               {viewingDatesWorker && <>Fechas en las que {viewingDatesWorker.worker_name} trabajó visitas pendientes de pago</>}
             </DialogDescription>

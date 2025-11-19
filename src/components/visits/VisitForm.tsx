@@ -206,7 +206,7 @@ export const VisitForm = ({
   return <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl bg-white">
         <DialogHeader>
-          <DialogTitle className="text-foreground">
+          <DialogTitle className="text-black">
             {editingVisit ? "Editar Visita" : "Nueva Visita"}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
@@ -217,17 +217,17 @@ export const VisitForm = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="start-time">Hora de Entrada</Label>
+              <Label htmlFor="start-time" className="text-black">Hora de Entrada</Label>
               <Input id="start-time" type="datetime-local" value={startTime} onChange={e => setStartTime(e.target.value)} required />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="end-time">Hora de Salida</Label>
+              <Label htmlFor="end-time" className="text-black">Hora de Salida</Label>
               <Input id="end-time" type="datetime-local" value={endTime} onChange={e => setEndTime(e.target.value)} required />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>Seleccionar Trabajadores (mínimo 2)</Label>
+            <Label className="text-black">Seleccionar Trabajadores (mínimo 2)</Label>
             <div className="border rounded-lg p-4 max-h-48 overflow-y-auto space-y-2">
               {workers.map(worker => <div key={worker.id} className="flex items-center space-x-2">
                   <Checkbox id={worker.id} checked={selectedWorkers.includes(worker.id)} onCheckedChange={() => handleWorkerToggle(worker.id)} />
@@ -243,7 +243,7 @@ export const VisitForm = ({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Descripción</Label>
+            <Label htmlFor="description" className="text-black">Descripción</Label>
             <Textarea id="description" placeholder="Detalles de la visita..." value={description} onChange={e => setDescription(e.target.value)} rows={3} />
           </div>
 

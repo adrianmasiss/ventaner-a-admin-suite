@@ -236,7 +236,7 @@ const CobrosEmpresa = () => {
       <Dialog open={isBillingDialogOpen} onOpenChange={setIsBillingDialogOpen}>
         <DialogContent className="bg-white">
           <DialogHeader>
-            <DialogTitle className="text-foreground">Actualizar Estado de Cobro</DialogTitle>
+            <DialogTitle className="text-black">Actualizar Estado de Cobro</DialogTitle>
             <DialogDescription className="text-muted-foreground">
               {selectedVisit && (
                 <>
@@ -253,7 +253,7 @@ const CobrosEmpresa = () => {
 
           <div className="space-y-4">
             <div>
-              <Label>Nuevo Estado</Label>
+              <Label className="text-black">Nuevo Estado</Label>
               <Select value={billingStatus} onValueChange={setBillingStatus}>
                 <SelectTrigger>
                   <SelectValue />
@@ -266,7 +266,7 @@ const CobrosEmpresa = () => {
             </div>
 
             <div>
-              <Label>Fecha</Label>
+              <Label className="text-black">Fecha</Label>
               <Input
                 type="date"
                 value={billingDate}
@@ -275,7 +275,7 @@ const CobrosEmpresa = () => {
             </div>
 
             <div>
-              <Label>Referencia/Número de Factura</Label>
+              <Label className="text-black">Referencia/Número de Factura</Label>
               <Input
                 value={invoiceReference}
                 onChange={(e) => setInvoiceReference(e.target.value)}
