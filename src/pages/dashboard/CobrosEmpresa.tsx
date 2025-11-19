@@ -191,7 +191,6 @@ const CobrosEmpresa = () => {
                   <TableHead>Descripción</TableHead>
                   <TableHead>Trabajadores</TableHead>
                   <TableHead>Monto</TableHead>
-                  <TableHead>Antigüedad</TableHead>
                   <TableHead>Estado</TableHead>
                   <TableHead>Acciones</TableHead>
                 </TableRow>
@@ -207,11 +206,6 @@ const CobrosEmpresa = () => {
                     <TableCell>{visit.description || "Sin descripción"}</TableCell>
                     <TableCell>{visit.num_workers}</TableCell>
                     <TableCell>₡{Number(visit.total_cost).toLocaleString()}</TableCell>
-                    <TableCell>
-                      <Badge variant={visit.days_pending > 30 ? "destructive" : "secondary"}>
-                        {visit.days_pending} días
-                      </Badge>
-                    </TableCell>
                     <TableCell>
                       <Badge variant={getBadgeVariant(visit.billing_status)}>
                         {getStatusLabel(visit.billing_status)}
