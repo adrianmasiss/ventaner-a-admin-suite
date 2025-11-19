@@ -11,28 +11,24 @@ const VisitasPage = lazy(() => import("./pages/dashboard/VisitasPage"));
 const TrabajadoresPage = lazy(() => import("./pages/dashboard/TrabajadoresPage"));
 const EstadisticasPage = lazy(() => import("./pages/dashboard/EstadisticasPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      gcTime: 1000 * 60 * 10, // 10 minutes
-      refetchOnWindowFocus: false,
-    },
-  },
+      staleTime: 1000 * 60 * 5,
+      // 5 minutes
+      gcTime: 1000 * 60 * 10,
+      // 10 minutes
+      refetchOnWindowFocus: false
+    }
+  }
 });
-
-const LoadingFallback = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+const LoadingFallback = () => <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
     <div className="text-center">
       <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
       <p className="text-slate-400 text-sm">Cargando...</p>
     </div>
-  </div>
-);
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+  </div>;
+const App = () => <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -40,7 +36,7 @@ const App = () => (
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<Auth />} />
+            <Route path="/auth" element={<Auth />} className="bg-slate-100" />
             <Route path="/dashboard/visitas" element={<VisitasPage />} />
             <Route path="/dashboard/trabajadores" element={<TrabajadoresPage />} />
             <Route path="/dashboard/estadisticas" element={<EstadisticasPage />} />
@@ -51,7 +47,5 @@ const App = () => (
         </Suspense>
       </BrowserRouter>
     </TooltipProvider>
-  </QueryClientProvider>
-);
-
+  </QueryClientProvider>;
 export default App;
