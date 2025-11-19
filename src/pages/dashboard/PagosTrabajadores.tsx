@@ -133,7 +133,7 @@ const PagosTrabajadores = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Pagos a Trabajadores</h1>
+        <h1 className="text-3xl font-bold text-black">Pagos a Trabajadores</h1>
       </div>
 
       <Card>
