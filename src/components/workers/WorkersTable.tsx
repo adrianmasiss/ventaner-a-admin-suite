@@ -1,15 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Edit, Trash2 } from "lucide-react";
-
 interface Worker {
   id: string;
   full_name: string;
@@ -17,24 +9,22 @@ interface Worker {
   payment_rate: number;
   payment_type: string;
 }
-
 interface WorkersTableProps {
   workers: Worker[];
   onEdit: (worker: Worker) => void;
   onDelete: (id: string) => void;
 }
-
-export const WorkersTable = ({ workers, onEdit, onDelete }: WorkersTableProps) => {
+export const WorkersTable = ({
+  workers,
+  onEdit,
+  onDelete
+}: WorkersTableProps) => {
   if (workers.length === 0) {
-    return (
-      <div className="text-center py-12 text-muted-foreground">
+    return <div className="text-center py-12 text-muted-foreground">
         No hay trabajadores registrados
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="rounded-lg border overflow-hidden">
+  return <div className="rounded-lg border overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow>
@@ -46,12 +36,11 @@ export const WorkersTable = ({ workers, onEdit, onDelete }: WorkersTableProps) =
           </TableRow>
         </TableHeader>
         <TableBody>
-          {workers.map((worker) => (
-            <TableRow key={worker.id}>
+          {workers.map(worker => <TableRow key={worker.id}>
               <TableCell className="font-medium">{worker.full_name}</TableCell>
               <TableCell>{worker.phone}</TableCell>
               <TableCell>
-                <Badge variant="outline">
+                <Badge variant="outline" className="bg-slate-900">
                   {worker.payment_type === "daily" ? "Diario" : "Por Hora"}
                 </Badge>
               </TableCell>
@@ -61,26 +50,16 @@ export const WorkersTable = ({ workers, onEdit, onDelete }: WorkersTableProps) =
               </TableCell>
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onEdit(worker)}
-                  >
+                  <Button variant="outline" size="sm" onClick={() => onEdit(worker)} className="text-slate-50">
                     <Edit className="h-4 w-4" />
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onDelete(worker.id)}
-                  >
+                  <Button variant="outline" size="sm" onClick={() => onDelete(worker.id)} className="text-slate-50">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </TableCell>
-            </TableRow>
-          ))}
+            </TableRow>)}
         </TableBody>
       </Table>
-    </div>
-  );
+    </div>;
 };
