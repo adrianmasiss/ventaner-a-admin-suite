@@ -154,10 +154,10 @@ const PagosTrabajadores = () => {
       </Card>
 
       <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
-        <DialogContent>
+        <DialogContent className="bg-white">
           <DialogHeader>
             <DialogTitle>Registrar Pago</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-primary">
               {selectedWorker && <>
                   Registrando pago para {selectedWorker.worker_name}
                   <br />
@@ -210,10 +210,10 @@ const PagosTrabajadores = () => {
 
       {/* Dialog para ver fechas trabajadas */}
       <Dialog open={isDatesDialogOpen} onOpenChange={setIsDatesDialogOpen}>
-        <DialogContent>
+        <DialogContent className="bg-white">
           <DialogHeader>
             <DialogTitle>Fechas Trabajadas</DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="text-primary">
               {viewingDatesWorker && <>Fechas en las que {viewingDatesWorker.worker_name} trabajó visitas pendientes de pago</>}
             </DialogDescription>
           </DialogHeader>
