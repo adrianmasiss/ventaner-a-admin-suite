@@ -30,7 +30,7 @@ export const AppSidebar = memo(() => {
       <SidebarHeader className="p-6 border-b border-slate-700/30 bg-gradient-to-b from-blue-500/5 to-transparent">
         <div className="flex items-center gap-3">
           <div className="flex-shrink-0">
-            <img src={logo} alt="Logo" className="h-16 w-auto drop-shadow-lg" />
+            <img src={logo} alt="Logo" className="h-20 w-auto drop-shadow-lg" />
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold text-white drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
