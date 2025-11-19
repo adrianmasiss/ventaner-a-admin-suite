@@ -36,7 +36,7 @@ const App = () => <QueryClientProvider client={queryClient}>
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<Auth />} className="bg-slate-100" />
+            <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard/visitas" element={<VisitasPage />} />
             <Route path="/dashboard/trabajadores" element={<TrabajadoresPage />} />
             <Route path="/dashboard/estadisticas" element={<EstadisticasPage />} />
