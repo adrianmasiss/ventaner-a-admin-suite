@@ -146,7 +146,7 @@ const Estadisticas = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">Estadísticas</h1>
+          <h1 className="text-3xl font-bold tracking-tight page-title-dark">Estadísticas</h1>
           <p className="text-muted-foreground mt-1">Análisis financiero y métricas clave</p>
         </div>
       </div>
