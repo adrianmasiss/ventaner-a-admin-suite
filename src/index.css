@@ -105,13 +105,12 @@
       rgba(255, 255, 255, 0.9) 0%,
       rgba(255, 255, 255, 0.7) 100%
     );
-    backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow: 
-      0 8px 32px rgba(31, 38, 135, 0.12),
-      0 2px 8px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+      0 4px 16px rgba(31, 38, 135, 0.1),
+      0 1px 4px rgba(0, 0, 0, 0.03),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
     transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
   }
@@ -136,9 +135,9 @@
   .glass-card:hover {
     transform: translateY(-1px);
     box-shadow:
-      0 12px 40px rgba(31, 38, 135, 0.15),
-      0 4px 16px rgba(0, 0, 0, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      0 6px 24px rgba(31, 38, 135, 0.12),
+      0 2px 8px rgba(0, 0, 0, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
   .glass-card:hover::before {
@@ -158,7 +157,7 @@
       rgba(255, 255, 255, 0.95) 0%,
       rgba(255, 255, 255, 0.85) 100%
     );
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(8px);
   }
 
   /* ============================================
@@ -172,12 +171,12 @@
       rgba(59, 130, 246, 0.12) 0%,
       rgba(96, 165, 250, 0.08) 100%
     );
-    backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid rgba(59, 130, 246, 0.25);
     box-shadow: 
-      0 8px 32px rgba(59, 130, 246, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      0 4px 16px rgba(59, 130, 246, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .stat-card-blue::before {
@@ -188,7 +187,7 @@
       rgba(59, 130, 246, 0.25) 0%,
       transparent 70%
     );
-    filter: blur(40px);
+    filter: blur(20px);
     animation: float-gentle 8s ease-in-out infinite;
   }
 
@@ -204,11 +203,11 @@
   }
 
   .stat-card-blue:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
     border-color: rgba(59, 130, 246, 0.4);
     box-shadow: 
-      0 20px 60px rgba(59, 130, 246, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      0 12px 32px rgba(59, 130, 246, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
   }
 
   .stat-card-blue:hover::after {
@@ -222,12 +221,12 @@
       rgba(245, 158, 11, 0.12) 0%,
       rgba(251, 191, 36, 0.08) 100%
     );
-    backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid rgba(245, 158, 11, 0.25);
     box-shadow: 
-      0 8px 32px rgba(245, 158, 11, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      0 4px 16px rgba(245, 158, 11, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .stat-card-orange::before {
@@ -238,16 +237,16 @@
       rgba(245, 158, 11, 0.25) 0%,
       transparent 70%
     );
-    filter: blur(40px);
+    filter: blur(20px);
     animation: float-gentle 10s ease-in-out infinite;
   }
 
   .stat-card-orange:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
     border-color: rgba(245, 158, 11, 0.4);
     box-shadow: 
-      0 20px 60px rgba(245, 158, 11, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      0 12px 32px rgba(245, 158, 11, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
   }
 
   .stat-card-green {
@@ -257,12 +256,12 @@
       rgba(16, 185, 129, 0.12) 0%,
       rgba(52, 211, 153, 0.08) 100%
     );
-    backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid rgba(16, 185, 129, 0.25);
     box-shadow: 
-      0 8px 32px rgba(16, 185, 129, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      0 4px 16px rgba(16, 185, 129, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .stat-card-green::before {
@@ -273,16 +272,16 @@
       rgba(16, 185, 129, 0.25) 0%,
       transparent 70%
     );
-    filter: blur(40px);
+    filter: blur(20px);
     animation: float-gentle 9s ease-in-out infinite;
   }
 
   .stat-card-green:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
     border-color: rgba(16, 185, 129, 0.4);
     box-shadow: 
-      0 20px 60px rgba(16, 185, 129, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      0 12px 32px rgba(16, 185, 129, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
   }
 
   .stat-card-sky {
@@ -292,12 +291,12 @@
       rgba(56, 189, 248, 0.12) 0%,
       rgba(125, 211, 252, 0.08) 100%
     );
-    backdrop-filter: blur(30px) saturate(180%);
+    backdrop-filter: blur(8px) saturate(120%);
     border: 1px solid rgba(56, 189, 248, 0.25);
     box-shadow: 
-      0 8px 32px rgba(56, 189, 248, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      0 4px 16px rgba(56, 189, 248, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .stat-card-sky::before {
@@ -308,16 +307,16 @@
       rgba(56, 189, 248, 0.25) 0%,
       transparent 70%
     );
-    filter: blur(40px);
+    filter: blur(20px);
     animation: float-gentle 11s ease-in-out infinite;
   }
 
   .stat-card-sky:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
     border-color: rgba(56, 189, 248, 0.4);
     box-shadow: 
-      0 20px 60px rgba(56, 189, 248, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      0 12px 32px rgba(56, 189, 248, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
   }
 
   /* ============================================
