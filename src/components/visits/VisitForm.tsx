@@ -204,21 +204,36 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
       }
     }
 
-    // Insert visit_workers
+    // Insert visit_workers - ONE payment per worker per day
     if (!error && visitId) {
-      const visitWorkers = selectedWorkers.map(workerId => ({
-        visit_id: visitId,
-        worker_id: workerId,
-        amount: visitData.numVisits * COST_PER_WORKER_PER_VISIT,
-        payment_status: "pending"
-      }));
+      const visitDate = new Date(startTime).toISOString().split('T')[0]; // Get YYYY-MM-DD
+      
+      for (const workerId of selectedWorkers) {
+        // Check if worker already has a payment record for this date
+        const { data: existingPayment } = await supabase
+          .from("visit_workers")
+          .select("id, visits!inner(start_time)")
+          .eq("worker_id", workerId)
+          .gte("visits.start_time", `${visitDate}T00:00:00`)
+          .lte("visits.start_time", `${visitDate}T23:59:59`)
+          .maybeSingle();
 
-      const { error: visitWorkersError } = await supabase
-        .from("visit_workers")
-        .insert(visitWorkers);
+        // Only create payment if worker doesn't have one for this date
+        if (!existingPayment) {
+          const { error: visitWorkersError } = await supabase
+            .from("visit_workers")
+            .insert({
+              visit_id: visitId,
+              worker_id: workerId,
+              amount: COST_PER_WORKER_PER_VISIT, // Fixed daily rate: ₡20,000
+              payment_status: "pending"
+            });
 
-      if (visitWorkersError) {
-        error = visitWorkersError;
+          if (visitWorkersError) {
+            error = visitWorkersError;
+            break;
+          }
+        }
       }
     }
 
