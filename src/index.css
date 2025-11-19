@@ -112,7 +112,8 @@
       0 2px 8px rgba(0, 0, 0, 0.04),
       inset 0 1px 0 rgba(255, 255, 255, 0.8),
       inset 0 -1px 0 rgba(0, 0, 0, 0.02);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
   }
 
   .glass-card::before {
@@ -133,10 +134,10 @@
   }
 
   .glass-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow:
-      0 20px 60px rgba(31, 38, 135, 0.18),
-      0 8px 24px rgba(0, 0, 0, 0.08),
+      0 12px 40px rgba(31, 38, 135, 0.15),
+      0 4px 16px rgba(0, 0, 0, 0.06),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 

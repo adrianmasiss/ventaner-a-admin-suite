@@ -5,15 +5,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+import { memo, useCallback } from "react";
 
 interface DashboardHeaderProps {
   user: SupabaseUser | null;
 }
 
-export const DashboardHeader = ({ user }: DashboardHeaderProps) => {
+export const DashboardHeader = memo(({ user }: DashboardHeaderProps) => {
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       toast.error("Error al cerrar sesión");
@@ -21,7 +22,7 @@ export const DashboardHeader = ({ user }: DashboardHeaderProps) => {
       toast.success("Sesión cerrada exitosamente");
       navigate("/auth");
     }
-  };
+  }, [navigate]);
 
   return (
     <header className="h-20 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 flex items-center justify-between px-8 shadow-[0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] sticky top-0 z-40">
@@ -57,4 +58,4 @@ export const DashboardHeader = ({ user }: DashboardHeaderProps) => {
       </div>
     </header>
   );
-};
+});

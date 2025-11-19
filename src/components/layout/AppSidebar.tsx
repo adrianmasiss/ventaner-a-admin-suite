@@ -1,6 +1,7 @@
 import { BarChart3, Users, Calendar } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
+import { memo } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -20,7 +21,7 @@ const menuItems = [
   { title: "Estadísticas", url: "/dashboard/estadisticas", icon: BarChart3 },
 ];
 
-export function AppSidebar() {
+export const AppSidebar = memo(() => {
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -56,7 +57,7 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <NavLink
                         to={item.url}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 ${
                           isActive
                             ? 'bg-gradient-to-r from-blue-500/20 to-blue-600/15 text-white font-semibold border-l-4 border-blue-400 pl-3 shadow-[0_4px_12px_rgba(59,130,246,0.2)]'
                             : 'text-slate-300 hover:bg-slate-700/30 hover:text-white'
@@ -79,4 +80,4 @@ export function AppSidebar() {
       </SidebarContent>
     </Sidebar>
   );
-}
+});
