@@ -129,68 +129,123 @@ const Visitas = () => {
     : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-fade-in">
+      {/* Header Section */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Control de Visitas</h1>
-          <p className="text-muted-foreground mt-1">Gestiona y monitorea todas las visitas</p>
+          <h1 className="text-3xl font-bold gradient-text-primary mb-2">Control de Visitas</h1>
+          <p className="text-slate-600">Gestiona y monitorea todas las visitas de mantenimiento</p>
         </div>
-        <Button onClick={() => setIsFormOpen(true)} size="lg" className="gap-2">
-          <Plus className="h-5 w-5" />
+        <Button
+          onClick={() => setIsFormOpen(true)}
+          className="btn-gradient-primary h-12 px-6 shadow-glow-blue hover-scale"
+        >
+          <Plus className="h-5 w-5 mr-2" />
           Nueva Visita
         </Button>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          title="Total Visitas Este Mes"
-          value={totalVisitsThisMonth}
-          icon={Calendar}
-          subtitle={`${thisMonthVisits.length} visitas registradas`}
-        />
-        <StatCard
-          title="Pendientes de Cobro"
-          value={`₡${pendingAmount.toLocaleString()}`}
-          icon={DollarSign}
-          gradient="warning"
-          subtitle={`${thisMonthVisits.filter(v => v.status === "pending").length} visitas pendientes`}
-        />
-        <StatCard
-          title="Total Cobrado"
-          value={`₡${paidAmount.toLocaleString()}`}
-          icon={CheckCircle2}
-          gradient="success"
-          subtitle="Pagos completados este mes"
-        />
-        <StatCard
-          title="Promedio por Visita"
-          value={`₡${Math.round(averageCost).toLocaleString()}`}
-          icon={TrendingUp}
-          subtitle="Costo promedio"
+      {/* Stats Cards - Premium Gradient Glass */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="stat-card-blue" style={{ animationDelay: '0.1s' }}>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-semibold text-blue-800/80 uppercase tracking-wide">
+                Visitas Este Mes
+              </span>
+              <Calendar className="h-12 w-12 text-blue-500/40" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-4xl font-bold text-slate-900 drop-shadow-sm">
+                {totalVisitsThisMonth}
+              </p>
+              <p className="text-sm text-blue-700/70 font-medium">visitas registradas</p>
+            </div>
+            <div className="mt-3 flex items-center gap-1 text-xs">
+              <TrendingUp className="h-3 w-3 text-green-600" />
+              <span className="text-green-700 font-semibold">+12%</span>
+              <span className="text-slate-600">vs mes anterior</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="stat-card-orange" style={{ animationDelay: '0.2s' }}>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-semibold text-orange-800/80 uppercase tracking-wide">
+                Pendientes de Cobro
+              </span>
+              <DollarSign className="h-12 w-12 text-orange-500/40" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-4xl font-bold text-slate-900 drop-shadow-sm">
+                ₡{pendingAmount.toLocaleString()}
+              </p>
+              <p className="text-sm text-orange-700/70 font-medium">por facturar</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="stat-card-green" style={{ animationDelay: '0.3s' }}>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-semibold text-green-800/80 uppercase tracking-wide">
+                Total Cobrado
+              </span>
+              <CheckCircle2 className="h-12 w-12 text-green-500/40" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-4xl font-bold text-slate-900 drop-shadow-sm">
+                ₡{paidAmount.toLocaleString()}
+              </p>
+              <p className="text-sm text-green-700/70 font-medium">cobrado este mes</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="stat-card-purple" style={{ animationDelay: '0.4s' }}>
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-semibold text-purple-800/80 uppercase tracking-wide">
+                Promedio por Visita
+              </span>
+              <TrendingUp className="h-12 w-12 text-purple-500/40" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-4xl font-bold text-slate-900 drop-shadow-sm">
+                ₡{Math.round(averageCost).toLocaleString()}
+              </p>
+              <p className="text-sm text-purple-700/70 font-medium">costo promedio</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Filters Section - Glass Panel */}
+      <div className="glass-card p-6" style={{ animationDelay: '0.5s' }}>
+        <VisitFilters
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+          dateFilter={dateFilter}
+          setDateFilter={setDateFilter}
         />
       </div>
 
-      <VisitFilters
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-        dateFilter={dateFilter}
-        setDateFilter={setDateFilter}
-      />
-
-      <Card className="shadow-sm">
-        <CardHeader className="border-b bg-muted/30">
-          <CardTitle className="text-xl">Listado de Visitas</CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
+      {/* Visits Table - Premium Glass */}
+      <div className="glass-table" style={{ animationDelay: '0.6s' }}>
+        <div className="glass-table-header px-6 py-4">
+          <h2 className="text-xl font-bold">Listado de Visitas</h2>
+        </div>
+        <div className="p-0">
           <VisitsTable
             visits={filteredVisits}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
+      {/* Visit Form Modal */}
       <VisitForm
         open={isFormOpen}
         onClose={handleFormClose}

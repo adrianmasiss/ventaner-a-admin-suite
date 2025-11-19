@@ -1,5 +1,6 @@
 import { BarChart3, Users, Calendar } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
+import { useLocation } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -20,38 +21,58 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
-    <Sidebar className="border-r border-sidebar-border bg-sidebar">
-      <SidebarHeader className="p-6 border-b border-sidebar-border">
+    <Sidebar className="glass-sidebar border-r border-slate-800/20">
+      <SidebarHeader className="p-6 border-b border-slate-700/30 bg-gradient-to-b from-blue-500/5 to-transparent">
         <div className="flex items-center gap-3">
-          <img src={logo} alt="Logo" className="h-12 w-auto" />
+          <div className="bg-white rounded-xl p-2 shadow-lg">
+            <img src={logo} alt="Logo" className="h-10 w-auto" />
+          </div>
           <div className="flex flex-col">
-            <span className="text-base font-semibold text-sidebar-foreground">Ventanería y</span>
-            <span className="text-xs text-sidebar-foreground/70">Mantenimientos S.A.</span>
+            <span className="text-base font-bold text-white drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+              Ventanería y
+            </span>
+            <span className="text-xs text-slate-300/90 font-medium">
+              Mantenimientos S.A.
+            </span>
           </div>
         </div>
       </SidebarHeader>
-      <SidebarContent className="px-3 py-4">
+      
+      <SidebarContent className="px-3 py-6">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/60 text-xs font-semibold uppercase tracking-wider mb-2">
+          <SidebarGroupLabel className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-3 px-3">
             Menú Principal
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sidebar-foreground/80 transition-all hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                      activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-semibold border-l-4 border-primary pl-2.5"
-                    >
-                      <item.icon className="h-5 w-5" />
-                      <span className="text-sm">{item.title}</span>
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+            <SidebarMenu className="space-y-2">
+              {menuItems.map((item) => {
+                const isActive = currentPath === item.url;
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <NavLink
+                        to={item.url}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                          isActive
+                            ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/15 text-white font-semibold border-l-4 border-blue-400 pl-3 shadow-[0_4px_12px_rgba(59,130,246,0.2)]'
+                            : 'text-slate-300 hover:bg-slate-700/30 hover:text-white'
+                        }`}
+                      >
+                        <item.icon 
+                          className={`h-5 w-5 ${
+                            isActive ? 'drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]' : ''
+                          }`} 
+                        />
+                        <span className="text-sm">{item.title}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
