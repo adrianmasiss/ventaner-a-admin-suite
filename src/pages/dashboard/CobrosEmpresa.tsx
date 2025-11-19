@@ -236,8 +236,8 @@ const CobrosEmpresa = () => {
       <Dialog open={isBillingDialogOpen} onOpenChange={setIsBillingDialogOpen}>
         <DialogContent className="bg-white">
           <DialogHeader>
-            <DialogTitle>Actualizar Estado de Cobro</DialogTitle>
-            <DialogDescription className="text-primary">
+            <DialogTitle className="text-foreground">Actualizar Estado de Cobro</DialogTitle>
+            <DialogDescription className="text-muted-foreground">
               {selectedVisit && (
                 <>
                   Visita del{" "}

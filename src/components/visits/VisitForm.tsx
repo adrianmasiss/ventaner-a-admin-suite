@@ -206,10 +206,10 @@ export const VisitForm = ({
   return <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl bg-white">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-foreground">
             {editingVisit ? "Editar Visita" : "Nueva Visita"}
           </DialogTitle>
-          <DialogDescription className="text-primary">
+          <DialogDescription className="text-muted-foreground">
             Complete los datos de la visita. El sistema calculará automáticamente el costo.
           </DialogDescription>
         </DialogHeader>
