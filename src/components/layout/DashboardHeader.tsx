@@ -3,31 +3,31 @@ import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { User as SupabaseUser } from "@supabase/supabase-js";
-import { memo, useCallback } from "react";
+import { memo, useCallback, useState } from "react";
 
 interface DashboardHeaderProps {
   user: SupabaseUser | null;
 }
 
 export const DashboardHeader = memo(({ user }: DashboardHeaderProps) => {
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = useCallback(async () => {
     try {
-      // Cerrar sesión en Supabase (tanto local como remota)
+      setIsLoading(true);
+      // Cerrar sesión en Supabase
       await supabase.auth.signOut();
+      // El onAuthStateChange en DashboardLayout se encargará de la redirección
       toast.success("Sesión cerrada exitosamente");
-    } catch (error) {
-      // Si hay error (como sesión ya expirada), aún así limpiamos todo
-      console.log("Limpiando sesión local");
+    } catch (error: any) {
+      // Si hay error, forzamos la navegación
+      console.error("Error al cerrar sesión:", error);
+      window.location.href = "/auth";
     } finally {
-      // Siempre navegamos al auth al final
-      // El onAuthStateChange en DashboardLayout manejará la redirección
-      navigate("/auth");
+      setIsLoading(false);
     }
-  }, [navigate]);
+  }, []);
 
   return (
     <header className="h-20 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 flex items-center justify-between px-8 shadow-[0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] sticky top-0 z-40">
@@ -55,10 +55,11 @@ export const DashboardHeader = memo(({ user }: DashboardHeaderProps) => {
           variant="outline" 
           size="sm" 
           onClick={handleLogout}
-          className="bg-white/80 backdrop-blur-sm border-slate-200/60 text-slate-900 hover:bg-red-50 hover:border-red-300/60 hover:text-red-600 transition-all duration-200 rounded-lg"
+          disabled={isLoading}
+          className="bg-white/80 backdrop-blur-sm border-slate-200/60 text-slate-900 hover:bg-red-50 hover:border-red-300/60 hover:text-red-600 transition-all duration-200 rounded-lg disabled:opacity-50"
         >
           <LogOut className="h-4 w-4 mr-2" />
-          Cerrar Sesión
+          {isLoading ? "Cerrando..." : "Cerrar Sesión"}
         </Button>
       </div>
     </header>
