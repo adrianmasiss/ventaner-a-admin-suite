@@ -124,7 +124,7 @@ const Auth = () => {
       
       {/* Modern Glass Card */}
       <Card className="w-full max-w-[480px] relative z-10 glass-card border-none shadow-[0_8px_32px_rgba(59,130,246,0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)]">
-        <CardHeader className="text-center space-y-6 pt-10 pb-8">
+        <CardHeader className="text-center space-y-6 pt-10 pb-8 backdrop-blur-glass bg-white/40 rounded-t-lg border-b border-slate-200/50">
           <div className="flex justify-center">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-sky-500/20 blur-xl rounded-full" />
