@@ -26,7 +26,7 @@ export const DashboardHeader = ({ user }: DashboardHeaderProps) => {
   return (
     <header className="h-20 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 flex items-center justify-between px-8 shadow-[0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] sticky top-0 z-40">
       <div className="flex items-center gap-4">
-        <SidebarTrigger className="text-slate-900 hover:bg-slate-100 rounded-lg p-2 transition-all duration-200" />
+        <SidebarTrigger className="text-slate-900 hover:bg-slate-100 rounded-lg p-3 transition-all duration-200 w-10 h-10" />
         <div>
           <h1 className="text-2xl font-bold text-slate-900">
             Sistema Administrativo
