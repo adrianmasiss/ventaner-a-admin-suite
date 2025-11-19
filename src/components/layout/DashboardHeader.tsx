@@ -15,12 +15,18 @@ export const DashboardHeader = memo(({ user }: DashboardHeaderProps) => {
   const navigate = useNavigate();
 
   const handleLogout = useCallback(async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      toast.error("Error al cerrar sesión");
-    } else {
-      toast.success("Sesión cerrada exitosamente");
+    try {
+      // Primero navegamos y limpiamos el estado local
       navigate("/auth");
+      
+      // Luego intentamos cerrar sesión en Supabase
+      // Si falla, no importa porque ya redirigimos al usuario
+      await supabase.auth.signOut({ scope: 'local' });
+      
+      toast.success("Sesión cerrada exitosamente");
+    } catch (error) {
+      // Incluso si hay un error, el usuario ya fue redirigido
+      console.error("Error al cerrar sesión:", error);
     }
   }, [navigate]);
 
