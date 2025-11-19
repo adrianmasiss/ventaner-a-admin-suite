@@ -7,7 +7,15 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import { z } from "zod";
 import logo from "@/assets/logo.png";
+
+const passwordSchema = z.string()
+  .min(8, "La contraseña debe tener al menos 8 caracteres")
+  .regex(/[A-Z]/, "Debe contener al menos una letra mayúscula")
+  .regex(/[a-z]/, "Debe contener al menos una letra minúscula")
+  .regex(/[0-9]/, "Debe contener al menos un número")
+  .regex(/[^A-Za-z0-9]/, "Debe contener al menos un carácter especial");
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -67,8 +75,9 @@ const Auth = () => {
       return;
     }
 
-    if (signupPassword.length < 6) {
-      toast.error("La contraseña debe tener al menos 6 caracteres");
+    const passwordValidation = passwordSchema.safeParse(signupPassword);
+    if (!passwordValidation.success) {
+      toast.error(passwordValidation.error.errors[0].message);
       return;
     }
 
