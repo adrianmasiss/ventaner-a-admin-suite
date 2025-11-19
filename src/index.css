@@ -149,7 +149,8 @@
 
   /* Gradient Buttons */
   .btn-gradient-primary {
-    @apply bg-gradient-primary text-white font-semibold rounded-xl border-none;
+    @apply text-white font-semibold rounded-xl border-none;
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
     box-shadow: 
       0 4px 15px rgba(59, 130, 246, 0.4),
       0 2px 8px rgba(0, 0, 0, 0.15),
@@ -170,12 +171,14 @@
   }
 
   .btn-gradient-success {
-    @apply bg-gradient-success text-white font-semibold rounded-xl;
+    @apply text-white font-semibold rounded-xl;
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
   }
 
   .btn-gradient-danger {
-    @apply bg-gradient-danger text-white font-semibold rounded-xl;
+    @apply text-white font-semibold rounded-xl;
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
   }
 
@@ -186,7 +189,8 @@
   }
 
   .btn-glass:hover {
-    @apply bg-gradient-primary text-white border-transparent;
+    @apply text-white border-transparent;
+    background: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
   }
 
   /* Status Badges - Gradient Glass Pills */
