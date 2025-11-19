@@ -244,7 +244,7 @@ export const VisitForm = ({
 
           <div className="space-y-2">
             <Label htmlFor="description" className="text-black">Descripción</Label>
-            <Textarea id="description" placeholder="Detalles de la visita..." value={description} onChange={e => setDescription(e.target.value)} rows={3} />
+            <Textarea id="description" placeholder="Detalles de la visita..." value={description} onChange={e => setDescription(e.target.value)} rows={3} className="bg-white text-black" />
           </div>
 
           {previewData && <div className="bg-muted p-4 rounded-lg space-y-2">
