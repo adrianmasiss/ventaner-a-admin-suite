@@ -314,14 +314,14 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
 
           {previewData && (
             <div className="bg-muted p-4 rounded-lg space-y-2">
-              <h4 className="font-semibold">Resumen Automático:</h4>
-              <p className="text-sm">
+              <h4 className="font-semibold text-black">Resumen Automático:</h4>
+              <p className="text-sm text-black">
                 Total de Horas: <strong>{previewData.totalHours} horas</strong>
               </p>
-              <p className="text-sm">
+              <p className="text-sm text-black">
                 Número de Visitas (cada 3 horas): <strong>{previewData.numVisits}</strong>
               </p>
-              <p className="text-sm text-lg font-bold text-primary">
+              <p className="text-sm text-lg font-bold text-black">
                 Costo Total: ₡{previewData.totalCost.toLocaleString()}
               </p>
             </div>
