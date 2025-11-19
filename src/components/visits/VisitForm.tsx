@@ -12,6 +12,20 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { z } from "zod";
+
+const visitSchema = z.object({
+  start_time: z.string().min(1, "La fecha de inicio es requerida"),
+  end_time: z.string().min(1, "La fecha de fin es requerida"),
+  description: z.string().max(500, "Descripción muy larga (máximo 500 caracteres)").optional(),
+  num_workers: z.number()
+    .int("El número de trabajadores debe ser entero")
+    .min(2, "Mínimo 2 trabajadores")
+    .max(50, "Máximo 50 trabajadores")
+}).refine(data => new Date(data.end_time) > new Date(data.start_time), {
+  message: "La fecha de fin debe ser posterior a la de inicio",
+  path: ["end_time"]
+});
 
 interface Visit {
   id: string;
@@ -87,8 +101,15 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (numWorkers < 2) {
-      toast.error("Debe haber al menos 2 trabajadores por visita");
+    const validation = visitSchema.safeParse({
+      start_time: startTime,
+      end_time: endTime,
+      description: description,
+      num_workers: numWorkers
+    });
+
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
       return;
     }
 

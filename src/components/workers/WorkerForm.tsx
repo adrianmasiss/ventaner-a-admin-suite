@@ -18,6 +18,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { z } from "zod";
+
+const workerSchema = z.object({
+  full_name: z.string()
+    .trim()
+    .min(1, "El nombre es requerido")
+    .max(100, "El nombre es demasiado largo")
+    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/, "Solo se permiten letras y espacios"),
+  phone: z.string()
+    .trim()
+    .regex(/^[0-9]{8,15}$/, "Formato de teléfono inválido (8-15 dígitos)"),
+  payment_rate: z.number()
+    .positive("La tarifa debe ser mayor a cero")
+    .max(1000000, "La tarifa es excesiva"),
+  payment_type: z.enum(["daily", "hourly"], {
+    errorMap: () => ({ message: "Tipo de pago inválido" })
+  })
+});
 
 interface Worker {
   id: string;
@@ -62,8 +80,17 @@ export const WorkerForm = ({ open, onClose, editingWorker, onSuccess }: WorkerFo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!fullName || !phone || !paymentRate) {
-      toast.error("Por favor complete todos los campos");
+    const numericRate = parseFloat(paymentRate);
+    
+    const validation = workerSchema.safeParse({
+      full_name: fullName,
+      phone: phone,
+      payment_rate: numericRate,
+      payment_type: paymentType
+    });
+
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
       return;
     }
 
