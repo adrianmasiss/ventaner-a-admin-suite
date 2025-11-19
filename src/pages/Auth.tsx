@@ -142,10 +142,10 @@ const Auth = () => {
             </div>
           </div>
           <div className="space-y-2">
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-slate-800 via-blue-900 to-slate-800 bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-bold text-slate-900">
               Ventanería y Mantenimientos
             </CardTitle>
-            <CardDescription className="text-base text-slate-600">
+            <CardDescription className="text-base text-slate-700">
               Sistema Administrativo
             </CardDescription>
           </div>
@@ -171,7 +171,7 @@ const Auth = () => {
             <TabsContent value="login" className="space-y-5 mt-8">
               <form onSubmit={handleLogin} className="space-y-5">
                 <div className="space-y-2.5">
-                  <Label htmlFor="login-email" className="text-sm font-semibold text-slate-700">
+                  <Label htmlFor="login-email" className="text-sm font-semibold text-slate-900">
                     Correo Electrónico
                   </Label>
                   <Input
@@ -181,11 +181,11 @@ const Auth = () => {
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     required
-                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800 placeholder:text-slate-400"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-900 placeholder:text-slate-500"
                   />
                 </div>
                 <div className="space-y-2.5">
-                  <Label htmlFor="login-password" className="text-sm font-semibold text-slate-700">
+                  <Label htmlFor="login-password" className="text-sm font-semibold text-slate-900">
                     Contraseña
                   </Label>
                   <Input
@@ -195,11 +195,11 @@ const Auth = () => {
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     required
-                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-900"
                   />
                 </div>
                 <Button 
-                  type="submit" 
+                  type="submit"
                   className="w-full h-12 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold shadow-[0_4px_16px_rgba(59,130,246,0.3)] hover:shadow-[0_8px_24px_rgba(59,130,246,0.4)] transition-all duration-300 hover:-translate-y-0.5" 
                   disabled={isLoading}
                 >
@@ -211,7 +211,7 @@ const Auth = () => {
             <TabsContent value="signup" className="space-y-5 mt-8">
               <form onSubmit={handleSignup} className="space-y-5">
                 <div className="space-y-2.5">
-                  <Label htmlFor="signup-name" className="text-sm font-semibold text-slate-700">
+                  <Label htmlFor="signup-name" className="text-sm font-semibold text-slate-900">
                     Nombre Completo
                   </Label>
                   <Input
@@ -221,11 +221,11 @@ const Auth = () => {
                     value={signupFullName}
                     onChange={(e) => setSignupFullName(e.target.value)}
                     required
-                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800 placeholder:text-slate-400"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-900 placeholder:text-slate-500"
                   />
                 </div>
                 <div className="space-y-2.5">
-                  <Label htmlFor="signup-email" className="text-sm font-semibold text-slate-700">
+                  <Label htmlFor="signup-email" className="text-sm font-semibold text-slate-900">
                     Correo Electrónico
                   </Label>
                   <Input
@@ -235,11 +235,11 @@ const Auth = () => {
                     value={signupEmail}
                     onChange={(e) => setSignupEmail(e.target.value)}
                     required
-                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800 placeholder:text-slate-400"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-900 placeholder:text-slate-500"
                   />
                 </div>
                 <div className="space-y-2.5">
-                  <Label htmlFor="signup-password" className="text-sm font-semibold text-slate-700">
+                  <Label htmlFor="signup-password" className="text-sm font-semibold text-slate-900">
                     Contraseña
                   </Label>
                   <Input
@@ -249,9 +249,9 @@ const Auth = () => {
                     value={signupPassword}
                     onChange={(e) => setSignupPassword(e.target.value)}
                     required
-                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-900"
                   />
-                  <p className="text-xs text-slate-500 leading-relaxed px-1">
+                  <p className="text-xs text-slate-700 leading-relaxed px-1">
                     Mínimo 8 caracteres con mayúscula, minúscula, número y símbolo
                   </p>
                 </div>
