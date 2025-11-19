@@ -203,19 +203,19 @@ const Visitas = () => {
           </div>
         </div>
 
-        <div className="stat-card-purple" style={{ animationDelay: '0.4s' }}>
+        <div className="stat-card-sky" style={{ animationDelay: '0.4s' }}>
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-semibold text-purple-800/80 uppercase tracking-wide">
+              <span className="text-sm font-semibold text-sky-800/80 uppercase tracking-wide">
                 Promedio por Visita
               </span>
-              <TrendingUp className="h-12 w-12 text-purple-500/40" />
+              <TrendingUp className="h-12 w-12 text-sky-500/40" />
             </div>
             <div className="space-y-1">
               <p className="text-4xl font-bold text-slate-900 drop-shadow-sm">
                 ₡{Math.round(averageCost).toLocaleString()}
               </p>
-              <p className="text-sm text-purple-700/70 font-medium">costo promedio</p>
+              <p className="text-sm text-sky-700/70 font-medium">costo promedio</p>
             </div>
           </div>
         </div>
