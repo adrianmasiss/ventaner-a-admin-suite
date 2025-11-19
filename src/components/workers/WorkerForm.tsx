@@ -136,10 +136,10 @@ export const WorkerForm = ({ open, onClose, editingWorker, onSuccess }: WorkerFo
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-foreground">
             {editingWorker ? "Editar Trabajador" : "Nuevo Trabajador"}
           </DialogTitle>
-          <DialogDescription className="text-primary">
+          <DialogDescription className="text-muted-foreground">
             Complete la información del trabajador
           </DialogDescription>
         </DialogHeader>
