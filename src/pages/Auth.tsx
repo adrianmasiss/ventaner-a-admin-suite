@@ -122,11 +122,11 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-white">
-      {/* Animated modern gradient orbs */}
-      <div className="absolute w-[800px] h-[800px] -top-64 -right-64 rounded-full bg-gradient-to-br from-blue-400/20 to-blue-600/10 blur-[100px] animate-pulse" style={{ animationDuration: '8s' }} />
-      <div className="absolute w-[600px] h-[600px] -bottom-48 -left-48 rounded-full bg-gradient-to-tr from-blue-300/15 to-sky-400/10 blur-[80px] animate-pulse" style={{ animationDelay: '2s', animationDuration: '10s' }} />
-      <div className="absolute w-[500px] h-[500px] top-1/2 right-1/4 rounded-full bg-gradient-to-bl from-blue-200/10 to-indigo-300/5 blur-[60px] animate-pulse" style={{ animationDelay: '4s', animationDuration: '12s' }} />
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-white">
+      {/* Subtle animated gradient orbs */}
+      <div className="absolute w-[800px] h-[800px] -top-64 -right-64 rounded-full bg-gradient-to-br from-slate-100/40 to-slate-50/20 blur-[100px] animate-pulse" style={{ animationDuration: '8s' }} />
+      <div className="absolute w-[600px] h-[600px] -bottom-48 -left-48 rounded-full bg-gradient-to-tr from-blue-50/30 to-slate-50/15 blur-[80px] animate-pulse" style={{ animationDelay: '2s', animationDuration: '10s' }} />
+      <div className="absolute w-[500px] h-[500px] top-1/2 right-1/4 rounded-full bg-gradient-to-bl from-slate-50/20 to-blue-50/10 blur-[60px] animate-pulse" style={{ animationDelay: '4s', animationDuration: '12s' }} />
       
       {/* Modern Glass Card */}
       <Card className="w-full max-w-[480px] relative z-10 glass-card border-none shadow-[0_8px_32px_rgba(59,130,246,0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)]">
