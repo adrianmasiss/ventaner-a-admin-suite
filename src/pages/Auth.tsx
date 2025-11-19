@@ -122,61 +122,70 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-dark p-4 relative overflow-hidden">
-      {/* Animated gradient orbs */}
-      <div className="absolute w-[600px] h-[600px] -top-48 -right-48 rounded-full bg-blue-500/15 blur-3xl animate-float" />
-      <div className="absolute w-[500px] h-[500px] -bottom-36 -left-36 rounded-full bg-purple-500/12 blur-3xl animate-float" style={{ animationDelay: '2s', animationDirection: 'reverse' }} />
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-white">
+      {/* Animated modern gradient orbs */}
+      <div className="absolute w-[800px] h-[800px] -top-64 -right-64 rounded-full bg-gradient-to-br from-blue-400/20 to-blue-600/10 blur-[100px] animate-pulse" style={{ animationDuration: '8s' }} />
+      <div className="absolute w-[600px] h-[600px] -bottom-48 -left-48 rounded-full bg-gradient-to-tr from-blue-300/15 to-sky-400/10 blur-[80px] animate-pulse" style={{ animationDelay: '2s', animationDuration: '10s' }} />
+      <div className="absolute w-[500px] h-[500px] top-1/2 right-1/4 rounded-full bg-gradient-to-bl from-blue-200/10 to-indigo-300/5 blur-[60px] animate-pulse" style={{ animationDelay: '4s', animationDuration: '12s' }} />
       
-      {/* Login Glass Card */}
-      <Card className="w-full max-w-md relative z-10 bg-white/85 backdrop-blur-[30px] border-white/40 shadow-[0_20px_60px_rgba(0,0,0,0.3),0_8px_24px_rgba(0,0,0,0.2),0_0_80px_rgba(59,130,246,0.1),inset_0_1px_0_rgba(255,255,255,0.6),inset_0_-1px_0_rgba(0,0,0,0.05)] rounded-3xl before:content-[''] before:absolute before:inset-[-2px] before:rounded-3xl before:p-[2px] before:bg-gradient-to-br before:from-blue-500/50 before:via-purple-500/30 before:to-pink-500/20 before:-z-10 before:opacity-60">
-        <CardHeader className="text-center space-y-4 pt-12">
+      {/* Modern Glass Card */}
+      <Card className="w-full max-w-[480px] relative z-10 glass-card border-none shadow-[0_8px_32px_rgba(59,130,246,0.12),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)]">
+        <CardHeader className="text-center space-y-6 pt-10 pb-8">
           <div className="flex justify-center">
-            <img 
-              src={logo} 
-              alt="Ventanería y Mantenimientos" 
-              className="h-32 w-auto drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]" 
-            />
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-sky-500/20 blur-xl rounded-full" />
+              <img 
+                src={logo} 
+                alt="Ventanería y Mantenimientos" 
+                className="h-24 w-auto relative z-10 drop-shadow-[0_4px_20px_rgba(59,130,246,0.25)]" 
+              />
+            </div>
           </div>
-          <div>
-            <CardTitle className="text-3xl font-bold gradient-text-primary">
+          <div className="space-y-2">
+            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-slate-800 via-blue-900 to-slate-800 bg-clip-text text-transparent">
               Ventanería y Mantenimientos
             </CardTitle>
-            <CardDescription className="text-base mt-2 text-slate-600/80">
+            <CardDescription className="text-base text-slate-600">
               Sistema Administrativo
             </CardDescription>
           </div>
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
         </CardHeader>
         
-        <CardContent className="pb-8">
+        <CardContent className="pb-10 px-8">
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-slate-100/60 backdrop-blur-sm p-1">
-              <TabsTrigger value="login" className="data-[state=active]:bg-gradient-primary data-[state=active]:text-white data-[state=active]:shadow-glow-blue">
+            <TabsList className="grid w-full grid-cols-2 bg-slate-100/50 backdrop-blur-sm p-1.5 rounded-xl border border-slate-200/50">
+              <TabsTrigger 
+                value="login" 
+                className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-[0_4px_12px_rgba(59,130,246,0.3)] transition-all duration-300"
+              >
                 Iniciar Sesión
               </TabsTrigger>
-              <TabsTrigger value="signup" className="data-[state=active]:bg-gradient-primary data-[state=active]:text-white data-[state=active]:shadow-glow-blue">
+              <TabsTrigger 
+                value="signup" 
+                className="rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-[0_4px_12px_rgba(59,130,246,0.3)] transition-all duration-300"
+              >
                 Registrarse
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="login" className="space-y-4 mt-6">
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="login-email" className="text-slate-700 font-medium">
+            <TabsContent value="login" className="space-y-5 mt-8">
+              <form onSubmit={handleLogin} className="space-y-5">
+                <div className="space-y-2.5">
+                  <Label htmlFor="login-email" className="text-sm font-semibold text-slate-700">
                     Correo Electrónico
                   </Label>
                   <Input
                     id="login-email"
                     type="email"
-                    placeholder="correo@ejemplo.com"
+                    placeholder="tu@correo.com"
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     required
-                    className="glass-input h-12"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800 placeholder:text-slate-400"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="login-password" className="text-slate-700 font-medium">
+                <div className="space-y-2.5">
+                  <Label htmlFor="login-password" className="text-sm font-semibold text-slate-700">
                     Contraseña
                   </Label>
                   <Input
@@ -186,12 +195,12 @@ const Auth = () => {
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     required
-                    className="glass-input h-12"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800"
                   />
                 </div>
                 <Button 
                   type="submit" 
-                  className="w-full h-13 btn-gradient-primary text-base" 
+                  className="w-full h-12 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold shadow-[0_4px_16px_rgba(59,130,246,0.3)] hover:shadow-[0_8px_24px_rgba(59,130,246,0.4)] transition-all duration-300 hover:-translate-y-0.5" 
                   disabled={isLoading}
                 >
                   {isLoading ? "Cargando..." : "Iniciar Sesión"}
@@ -199,38 +208,38 @@ const Auth = () => {
               </form>
             </TabsContent>
             
-            <TabsContent value="signup" className="space-y-4 mt-6">
-              <form onSubmit={handleSignup} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="signup-name" className="text-slate-700 font-medium">
+            <TabsContent value="signup" className="space-y-5 mt-8">
+              <form onSubmit={handleSignup} className="space-y-5">
+                <div className="space-y-2.5">
+                  <Label htmlFor="signup-name" className="text-sm font-semibold text-slate-700">
                     Nombre Completo
                   </Label>
                   <Input
                     id="signup-name"
                     type="text"
-                    placeholder="Juan Pérez"
+                    placeholder="Tu nombre completo"
                     value={signupFullName}
                     onChange={(e) => setSignupFullName(e.target.value)}
                     required
-                    className="glass-input h-12"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800 placeholder:text-slate-400"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email" className="text-slate-700 font-medium">
+                <div className="space-y-2.5">
+                  <Label htmlFor="signup-email" className="text-sm font-semibold text-slate-700">
                     Correo Electrónico
                   </Label>
                   <Input
                     id="signup-email"
                     type="email"
-                    placeholder="correo@ejemplo.com"
+                    placeholder="tu@correo.com"
                     value={signupEmail}
                     onChange={(e) => setSignupEmail(e.target.value)}
                     required
-                    className="glass-input h-12"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800 placeholder:text-slate-400"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password" className="text-slate-700 font-medium">
+                <div className="space-y-2.5">
+                  <Label htmlFor="signup-password" className="text-sm font-semibold text-slate-700">
                     Contraseña
                   </Label>
                   <Input
@@ -240,15 +249,18 @@ const Auth = () => {
                     value={signupPassword}
                     onChange={(e) => setSignupPassword(e.target.value)}
                     required
-                    className="glass-input h-12"
+                    className="h-12 rounded-xl border-slate-200/60 bg-white/80 backdrop-blur-sm focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all duration-300 text-slate-800"
                   />
+                  <p className="text-xs text-slate-500 leading-relaxed px-1">
+                    Mínimo 8 caracteres con mayúscula, minúscula, número y símbolo
+                  </p>
                 </div>
                 <Button 
                   type="submit" 
-                  className="w-full h-13 btn-gradient-primary text-base" 
+                  className="w-full h-12 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold shadow-[0_4px_16px_rgba(59,130,246,0.3)] hover:shadow-[0_8px_24px_rgba(59,130,246,0.4)] transition-all duration-300 hover:-translate-y-0.5" 
                   disabled={isLoading}
                 >
-                  {isLoading ? "Cargando..." : "Crear Cuenta"}
+                  {isLoading ? "Creando cuenta..." : "Crear Cuenta"}
                 </Button>
               </form>
             </TabsContent>

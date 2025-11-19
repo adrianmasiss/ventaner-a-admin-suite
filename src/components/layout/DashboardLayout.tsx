@@ -47,9 +47,9 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-dark relative">
-        {/* Animated mesh gradient background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(59,130,246,0.08)_0%,transparent_50%),radial-gradient(circle_at_80%_70%,rgba(139,92,246,0.06)_0%,transparent_50%)] animate-gradient-shift pointer-events-none" />
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 via-blue-50/20 to-white relative">
+        {/* Subtle animated gradient background */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.06)_0%,transparent_50%),radial-gradient(circle_at_75%_75%,rgba(96,165,250,0.04)_0%,transparent_50%)] pointer-events-none" />
         
         <AppSidebar />
         <div className="flex-1 flex flex-col relative z-10">
