@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -48,12 +49,23 @@ interface VisitFormProps {
 
 const COST_PER_WORKER_PER_VISIT = 20000;
 
+interface Worker {
+  id: string;
+  full_name: string;
+}
+
 export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormProps) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [description, setDescription] = useState("");
   const [numWorkers, setNumWorkers] = useState(2);
   const [isLoading, setIsLoading] = useState(false);
+  const [workers, setWorkers] = useState<Worker[]>([]);
+  const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchWorkers();
+  }, []);
 
   useEffect(() => {
     if (editingVisit) {
@@ -61,16 +73,48 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
       setEndTime(new Date(editingVisit.end_time).toISOString().slice(0, 16));
       setDescription(editingVisit.description || "");
       setNumWorkers(editingVisit.num_workers);
+      fetchVisitWorkers(editingVisit.id);
     } else {
       resetForm();
     }
   }, [editingVisit, open]);
+
+  const fetchWorkers = async () => {
+    const { data, error } = await supabase
+      .from("workers")
+      .select("id, full_name")
+      .order("full_name");
+
+    if (!error && data) {
+      setWorkers(data);
+    }
+  };
+
+  const fetchVisitWorkers = async (visitId: string) => {
+    const { data, error } = await supabase
+      .from("visit_workers")
+      .select("worker_id")
+      .eq("visit_id", visitId);
+
+    if (!error && data) {
+      setSelectedWorkers(data.map(vw => vw.worker_id));
+    }
+  };
 
   const resetForm = () => {
     setStartTime("");
     setEndTime("");
     setDescription("");
     setNumWorkers(2);
+    setSelectedWorkers([]);
+  };
+
+  const handleWorkerToggle = (workerId: string) => {
+    setSelectedWorkers(prev => 
+      prev.includes(workerId)
+        ? prev.filter(id => id !== workerId)
+        : [...prev, workerId]
+    );
   };
 
   const calculateVisitData = () => {
@@ -101,11 +145,16 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (selectedWorkers.length < 2) {
+      toast.error("Debe seleccionar al menos 2 trabajadores");
+      return;
+    }
+
     const validation = visitSchema.safeParse({
       start_time: startTime,
       end_time: endTime,
       description: description,
-      num_workers: numWorkers
+      num_workers: selectedWorkers.length
     });
 
     if (!validation.success) {
@@ -122,13 +171,14 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
       start_time: new Date(startTime).toISOString(),
       end_time: new Date(endTime).toISOString(),
       description: description || null,
-      num_workers: numWorkers,
+      num_workers: selectedWorkers.length,
       total_hours: visitData.totalHours,
       num_visits: visitData.numVisits,
       total_cost: visitData.totalCost,
       status: "pending",
     };
 
+    let visitId: string | null = null;
     let error;
 
     if (editingVisit) {
@@ -137,9 +187,39 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
         .update(data)
         .eq("id", editingVisit.id);
       error = result.error;
+      visitId = editingVisit.id;
+
+      // Delete existing visit_workers
+      if (!error) {
+        await supabase
+          .from("visit_workers")
+          .delete()
+          .eq("visit_id", editingVisit.id);
+      }
     } else {
-      const result = await supabase.from("visits").insert(data);
+      const result = await supabase.from("visits").insert(data).select();
       error = result.error;
+      if (!error && result.data && result.data.length > 0) {
+        visitId = result.data[0].id;
+      }
+    }
+
+    // Insert visit_workers
+    if (!error && visitId) {
+      const visitWorkers = selectedWorkers.map(workerId => ({
+        visit_id: visitId,
+        worker_id: workerId,
+        amount: visitData.numVisits * COST_PER_WORKER_PER_VISIT,
+        payment_status: "pending"
+      }));
+
+      const { error: visitWorkersError } = await supabase
+        .from("visit_workers")
+        .insert(visitWorkers);
+
+      if (visitWorkersError) {
+        error = visitWorkersError;
+      }
     }
 
     setIsLoading(false);
@@ -195,15 +275,30 @@ export const VisitForm = ({ open, onClose, editingVisit, onSuccess }: VisitFormP
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="num-workers">Número de Trabajadores (mínimo 2)</Label>
-            <Input
-              id="num-workers"
-              type="number"
-              min="2"
-              value={numWorkers}
-              onChange={(e) => setNumWorkers(parseInt(e.target.value) || 2)}
-              required
-            />
+            <Label>Seleccionar Trabajadores (mínimo 2)</Label>
+            <div className="border rounded-lg p-4 max-h-48 overflow-y-auto space-y-2">
+              {workers.map((worker) => (
+                <div key={worker.id} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={worker.id}
+                    checked={selectedWorkers.includes(worker.id)}
+                    onCheckedChange={() => handleWorkerToggle(worker.id)}
+                  />
+                  <label
+                    htmlFor={worker.id}
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  >
+                    {worker.full_name}
+                  </label>
+                </div>
+              ))}
+              {workers.length === 0 && (
+                <p className="text-sm text-muted-foreground">No hay trabajadores disponibles</p>
+              )}
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Trabajadores seleccionados: {selectedWorkers.length}
+            </p>
           </div>
 
           <div className="space-y-2">

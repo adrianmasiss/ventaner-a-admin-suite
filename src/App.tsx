@@ -10,6 +10,9 @@ const Index = lazy(() => import("./pages/Index"));
 const VisitasPage = lazy(() => import("./pages/dashboard/VisitasPage"));
 const TrabajadoresPage = lazy(() => import("./pages/dashboard/TrabajadoresPage"));
 const EstadisticasPage = lazy(() => import("./pages/dashboard/EstadisticasPage"));
+const PagosTrabajadoresPage = lazy(() => import("./pages/dashboard/PagosTrabajadoresPage"));
+const CobrosEmpresaPage = lazy(() => import("./pages/dashboard/CobrosEmpresaPage"));
+const HistorialFinancieroPage = lazy(() => import("./pages/dashboard/HistorialFinancieroPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,6 +43,9 @@ const App = () => <QueryClientProvider client={queryClient}>
             <Route path="/dashboard/visitas" element={<VisitasPage />} />
             <Route path="/dashboard/trabajadores" element={<TrabajadoresPage />} />
             <Route path="/dashboard/estadisticas" element={<EstadisticasPage />} />
+            <Route path="/dashboard/pagos-trabajadores" element={<PagosTrabajadoresPage />} />
+            <Route path="/dashboard/cobros-empresa" element={<CobrosEmpresaPage />} />
+            <Route path="/dashboard/historial-financiero" element={<HistorialFinancieroPage />} />
             <Route path="/dashboard" element={<Navigate to="/dashboard/visitas" replace />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

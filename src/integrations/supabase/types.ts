@@ -61,20 +61,32 @@ export type Database = {
       }
       visit_workers: {
         Row: {
+          amount: number
           created_at: string
           id: string
+          payment_date: string | null
+          payment_method: string | null
+          payment_status: string
           visit_id: string
           worker_id: string
         }
         Insert: {
+          amount?: number
           created_at?: string
           id?: string
+          payment_date?: string | null
+          payment_method?: string | null
+          payment_status?: string
           visit_id: string
           worker_id: string
         }
         Update: {
+          amount?: number
           created_at?: string
           id?: string
+          payment_date?: string | null
+          payment_method?: string | null
+          payment_status?: string
           visit_id?: string
           worker_id?: string
         }
@@ -97,10 +109,13 @@ export type Database = {
       }
       visits: {
         Row: {
+          billing_date: string | null
+          billing_status: string
           created_at: string
           description: string | null
           end_time: string
           id: string
+          invoice_reference: string | null
           num_visits: number
           num_workers: number
           start_time: string
@@ -110,10 +125,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          billing_date?: string | null
+          billing_status?: string
           created_at?: string
           description?: string | null
           end_time: string
           id?: string
+          invoice_reference?: string | null
           num_visits: number
           num_workers: number
           start_time: string
@@ -123,10 +141,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          billing_date?: string | null
+          billing_status?: string
           created_at?: string
           description?: string | null
           end_time?: string
           id?: string
+          invoice_reference?: string | null
           num_visits?: number
           num_workers?: number
           start_time?: string
