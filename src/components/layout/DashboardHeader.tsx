@@ -4,7 +4,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { User as SupabaseUser } from "@supabase/supabase-js";
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, useEffect } from "react";
 
 interface DashboardHeaderProps {
   user: SupabaseUser | null;
@@ -12,6 +12,25 @@ interface DashboardHeaderProps {
 
 export const DashboardHeader = memo(({ user }: DashboardHeaderProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [fullName, setFullName] = useState<string>("");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user?.id) return;
+      
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .single();
+      
+      if (!error && data) {
+        setFullName(data.full_name);
+      }
+    };
+    
+    fetchProfile();
+  }, [user?.id]);
 
   const handleLogout = useCallback(async () => {
     try {
@@ -58,7 +77,7 @@ export const DashboardHeader = memo(({ user }: DashboardHeaderProps) => {
             <User className="h-5 w-5 text-white" />
           </div>
           <span className="text-sm font-medium text-slate-900">
-            {user?.email}
+            {fullName || user?.email}
           </span>
         </div>
         
