@@ -148,30 +148,51 @@ const PagosTrabajadores = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Trabajador</TableHead>
+                  <TableHead>Fecha(s) Trabajadas</TableHead>
                   <TableHead>Visitas Pendientes</TableHead>
                   <TableHead>Monto Total</TableHead>
                   <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {workerPayments.map((wp) => (
-                  <TableRow key={wp.worker_id}>
-                    <TableCell className="font-medium">{wp.worker_name}</TableCell>
-                    <TableCell>{wp.pending_visits.length}</TableCell>
-                    <TableCell>₡{wp.pending_amount.toLocaleString()}</TableCell>
-                    <TableCell>
-                      <Button
-                        size="sm"
-                        onClick={() => {
-                          setSelectedWorker(wp);
-                          setIsPaymentDialogOpen(true);
-                        }}
-                      >
-                        Marcar como Pagado
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {workerPayments.map((wp) => {
+                  // Get unique dates from pending visits
+                  const uniqueDates = Array.from(
+                    new Set(
+                      wp.pending_visits.map(v => 
+                        format(new Date(v.visit_date), "dd/MM/yyyy", { locale: es })
+                      )
+                    )
+                  ).sort();
+
+                  return (
+                    <TableRow key={wp.worker_id}>
+                      <TableCell className="font-medium">{wp.worker_name}</TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-1">
+                          {uniqueDates.map((date, idx) => (
+                            <Badge key={idx} variant="outline">
+                              {date}
+                            </Badge>
+                          ))}
+                        </div>
+                      </TableCell>
+                      <TableCell>{wp.pending_visits.length}</TableCell>
+                      <TableCell>₡{wp.pending_amount.toLocaleString()}</TableCell>
+                      <TableCell>
+                        <Button
+                          size="sm"
+                          onClick={() => {
+                            setSelectedWorker(wp);
+                            setIsPaymentDialogOpen(true);
+                          }}
+                        >
+                          Marcar como Pagado
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           )}
