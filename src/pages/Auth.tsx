@@ -17,6 +17,22 @@ const passwordSchema = z.string()
   .regex(/[0-9]/, "Debe contener al menos un número")
   .regex(/[^A-Za-z0-9]/, "Debe contener al menos un carácter especial");
 
+const getAuthErrorMessage = (error: any): string => {
+  if (error.message?.includes("Invalid login credentials")) {
+    return "Email o contraseña incorrectos";
+  }
+  if (error.message?.includes("already registered")) {
+    return "Este correo ya está registrado. Intente iniciar sesión.";
+  }
+  if (error.message?.includes("Email not confirmed")) {
+    return "Por favor confirme su email antes de iniciar sesión";
+  }
+  if (error.status === 429) {
+    return "Demasiados intentos. Por favor espere unos minutos.";
+  }
+  return "Error al procesar su solicitud. Intente nuevamente.";
+};
+
 const Auth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -61,7 +77,7 @@ const Auth = () => {
     setIsLoading(false);
 
     if (error) {
-      toast.error(error.message);
+      toast.error(getAuthErrorMessage(error));
     } else {
       toast.success("¡Inicio de sesión exitoso!");
     }
@@ -97,11 +113,7 @@ const Auth = () => {
     setIsLoading(false);
 
     if (error) {
-      if (error.message.includes("already registered")) {
-        toast.error("Este correo ya está registrado. Intente iniciar sesión.");
-      } else {
-        toast.error(error.message);
-      }
+      toast.error(getAuthErrorMessage(error));
     } else {
       toast.success("¡Cuenta creada exitosamente! Puede iniciar sesión.");
       setSignupEmail("");
