@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { Calendar } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -48,6 +49,8 @@ const PagosTrabajadores = () => {
   const [workerPayments, setWorkerPayments] = useState<WorkerPayment[]>([]);
   const [selectedWorker, setSelectedWorker] = useState<WorkerPayment | null>(null);
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
+  const [isDatesDialogOpen, setIsDatesDialogOpen] = useState(false);
+  const [viewingDatesWorker, setViewingDatesWorker] = useState<WorkerPayment | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<string>("cash");
   const [paymentDate, setPaymentDate] = useState<string>(
     format(new Date(), "yyyy-MM-dd")
@@ -148,36 +151,38 @@ const PagosTrabajadores = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Trabajador</TableHead>
-                  <TableHead>Fecha(s) Trabajadas</TableHead>
                   <TableHead>Visitas Pendientes</TableHead>
+                  <TableHead>Fechas</TableHead>
                   <TableHead>Monto Total</TableHead>
                   <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {workerPayments.map((wp) => {
-                  // Get unique dates from pending visits
-                  const uniqueDates = Array.from(
-                    new Set(
-                      wp.pending_visits.map(v => 
-                        format(new Date(v.visit_date), "dd/MM/yyyy", { locale: es })
-                      )
+                  // Get unique dates count
+                  const uniqueDatesCount = new Set(
+                    wp.pending_visits.map(v => 
+                      format(new Date(v.visit_date), "dd/MM/yyyy", { locale: es })
                     )
-                  ).sort();
+                  ).size;
 
                   return (
                     <TableRow key={wp.worker_id}>
                       <TableCell className="font-medium">{wp.worker_name}</TableCell>
-                      <TableCell>
-                        <div className="flex flex-wrap gap-1">
-                          {uniqueDates.map((date, idx) => (
-                            <Badge key={idx} variant="outline">
-                              {date}
-                            </Badge>
-                          ))}
-                        </div>
-                      </TableCell>
                       <TableCell>{wp.pending_visits.length}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setViewingDatesWorker(wp);
+                            setIsDatesDialogOpen(true);
+                          }}
+                        >
+                          <Calendar className="h-4 w-4 mr-2" />
+                          Ver {uniqueDatesCount} {uniqueDatesCount === 1 ? 'fecha' : 'fechas'}
+                        </Button>
+                      </TableCell>
                       <TableCell>₡{wp.pending_amount.toLocaleString()}</TableCell>
                       <TableCell>
                         <Button
@@ -263,6 +268,41 @@ const PagosTrabajadores = () => {
               Cancelar
             </Button>
             <Button onClick={handleMarkAsPaid}>Confirmar Pago</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog para ver fechas trabajadas */}
+      <Dialog open={isDatesDialogOpen} onOpenChange={setIsDatesDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Fechas Trabajadas</DialogTitle>
+            <DialogDescription>
+              {viewingDatesWorker && (
+                <>Fechas en las que {viewingDatesWorker.worker_name} trabajó visitas pendientes de pago</>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-2">
+            {viewingDatesWorker && Array.from(
+              new Set(
+                viewingDatesWorker.pending_visits.map(v => 
+                  format(new Date(v.visit_date), "dd/MM/yyyy", { locale: es })
+                )
+              )
+            ).sort().map((date, idx) => (
+              <div key={idx} className="flex items-center gap-2 p-2 bg-muted rounded">
+                <Calendar className="h-4 w-4 text-muted-foreground" />
+                <span>{date}</span>
+              </div>
+            ))}
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDatesDialogOpen(false)}>
+              Cerrar
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
