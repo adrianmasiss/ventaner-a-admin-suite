@@ -112,7 +112,7 @@
       0 2px 8px rgba(0, 0, 0, 0.04),
       inset 0 1px 0 rgba(255, 255, 255, 0.8),
       inset 0 -1px 0 rgba(0, 0, 0, 0.02);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glass-card::before {
@@ -133,8 +133,8 @@
   }
 
   .glass-card:hover {
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 
+    transform: translateY(-2px);
+    box-shadow:
       0 20px 60px rgba(31, 38, 135, 0.18),
       0 8px 24px rgba(0, 0, 0, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -565,7 +565,7 @@
   }
 
   .animate-fade-in {
-    animation: fade-in 0.6s ease-out;
+    animation: fade-in 0.3s ease-out;
   }
 
   /* ============================================
@@ -596,7 +596,7 @@
   @keyframes fade-in {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(10px);
     }
     to {
       opacity: 1;
