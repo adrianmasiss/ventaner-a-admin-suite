@@ -15,7 +15,7 @@ import {
 import logo from "@/assets/logo.png";
 
 const menuItems = [
-  { title: "Control de Visitas", url: "/dashboard/visitas", icon: Calendar },
+  { title: "Listado de Visitas", url: "/dashboard/visitas", icon: Calendar },
   { title: "Trabajadores", url: "/dashboard/trabajadores", icon: Users },
   { title: "Estadísticas", url: "/dashboard/estadisticas", icon: BarChart3 },
 ];
