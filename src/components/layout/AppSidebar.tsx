@@ -56,7 +56,7 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <NavLink
                         to={item.url}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                           isActive
                             ? 'bg-gradient-to-r from-blue-500/20 to-blue-600/15 text-white font-semibold border-l-4 border-blue-400 pl-3 shadow-[0_4px_12px_rgba(59,130,246,0.2)]'
                             : 'text-slate-300 hover:bg-slate-700/30 hover:text-white'
