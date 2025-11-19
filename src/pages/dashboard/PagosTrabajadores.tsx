@@ -187,14 +187,14 @@ const PagosTrabajadores = () => {
             </div>
 
             {selectedWorker && <div className="border rounded-lg p-4 space-y-2">
-                <h4 className="font-semibold">Visitas incluidas:</h4>
+                <h4 className="font-semibold text-slate-950">Visitas incluidas:</h4>
                 {selectedWorker.pending_visits.map(visit => <div key={visit.id} className="flex justify-between text-sm">
-                    <span>
+                    <span className="text-slate-950">
                       {format(new Date(visit.visit_date), "dd/MM/yyyy", {
                   locale: es
                 })}
                     </span>
-                    <span>₡{visit.amount.toLocaleString()}</span>
+                    <span className="text-slate-950">₡{visit.amount.toLocaleString()}</span>
                   </div>)}
               </div>}
           </div>
