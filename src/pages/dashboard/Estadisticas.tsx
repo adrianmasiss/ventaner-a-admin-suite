@@ -7,36 +7,51 @@ import { DollarSign, Clock, Users, TrendingUp, Calendar, BarChart3 } from "lucid
 import { toast } from "sonner";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
 interface Visit {
   id: string;
   total_cost: number;
-  status: string;
+  billing_status: string;
   start_time: string;
   total_hours: number;
   num_workers: number;
 }
+
 interface Worker {
   id: string;
   payment_rate: number;
   payment_type: string;
   full_name: string;
 }
+
+interface VisitWorker {
+  id: string;
+  amount: number;
+  payment_status: string;
+  visit_id: string;
+}
 const Estadisticas = () => {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [workers, setWorkers] = useState<Worker[]>([]);
+  const [visitWorkers, setVisitWorkers] = useState<VisitWorker[]>([]);
   const [dateFilter, setDateFilter] = useState({
     start: "",
     end: ""
   });
+
   const fetchData = async () => {
-    const {
-      data: visitsData,
-      error: visitsError
-    } = await supabase.from("visits").select("*");
-    const {
-      data: workersData,
-      error: workersError
-    } = await supabase.from("workers").select("*");
+    const { data: visitsData, error: visitsError } = await supabase
+      .from("visits")
+      .select("*");
+    
+    const { data: workersData, error: workersError } = await supabase
+      .from("workers")
+      .select("*");
+    
+    const { data: visitWorkersData, error: visitWorkersError } = await supabase
+      .from("visit_workers")
+      .select("*");
+
     if (visitsError) {
       toast.error("Error al cargar visitas");
       return;
@@ -45,8 +60,14 @@ const Estadisticas = () => {
       toast.error("Error al cargar trabajadores");
       return;
     }
+    if (visitWorkersError) {
+      toast.error("Error al cargar pagos a trabajadores");
+      return;
+    }
+
     setVisits(visitsData || []);
     setWorkers(workersData || []);
+    setVisitWorkers(visitWorkersData || []);
   };
   useEffect(() => {
     fetchData();
@@ -68,23 +89,38 @@ const Estadisticas = () => {
     });
   };
   const filteredVisits = filterVisitsByDate();
+  
+  // Cobros realizados (billing_status = 'collected')
+  const totalCollected = filteredVisits
+    .filter(v => v.billing_status === "collected")
+    .reduce((sum, visit) => sum + visit.total_cost, 0);
+  
+  // Cobros pendientes (billing_status = 'pending')
+  const pendingCollections = filteredVisits
+    .filter(v => v.billing_status === "pending")
+    .reduce((sum, visit) => sum + visit.total_cost, 0);
+  
+  // Total de ingresos potenciales
   const totalEarnings = filteredVisits.reduce((sum, visit) => sum + visit.total_cost, 0);
-  const pendingPayments = filteredVisits.filter(v => v.status === "pending").reduce((sum, visit) => sum + visit.total_cost, 0);
-  const paidAmount = filteredVisits.filter(v => v.status === "paid").reduce((sum, visit) => sum + visit.total_cost, 0);
-  const estimatedWorkerPayments = filteredVisits.reduce((sum, visit) => {
-    const totalHours = visit.total_hours;
-    const numWorkers = visit.num_workers || 1;
-    const workersCost = workers.slice(0, numWorkers).reduce((total, worker) => {
-      if (worker.payment_type === "hourly") {
-        return total + worker.payment_rate * totalHours;
-      } else {
-        const days = Math.ceil(totalHours / 8);
-        return total + worker.payment_rate * days;
-      }
-    }, 0);
-    return sum + workersCost;
-  }, 0);
-  const netProfit = totalEarnings - estimatedWorkerPayments;
+  
+  // Filtrar visit_workers por las visitas filtradas por fecha
+  const filteredVisitIds = filteredVisits.map(v => v.id);
+  const filteredVisitWorkers = visitWorkers.filter(vw => 
+    filteredVisitIds.includes(vw.visit_id)
+  );
+  
+  // Pagos realizados a trabajadores (payment_status = 'paid')
+  const paidToWorkers = filteredVisitWorkers
+    .filter(vw => vw.payment_status === "paid")
+    .reduce((sum, vw) => sum + vw.amount, 0);
+  
+  // Pagos pendientes a trabajadores (payment_status = 'pending')
+  const pendingWorkerPayments = filteredVisitWorkers
+    .filter(vw => vw.payment_status === "pending")
+    .reduce((sum, vw) => sum + vw.amount, 0);
+  
+  // Ganancia neta = Cobros realizados - Pagos realizados a trabajadores
+  const netProfit = totalCollected - paidToWorkers;
 
   // Prepare chart data
   const monthlyData = filteredVisits.reduce((acc: any[], visit) => {
@@ -103,12 +139,12 @@ const Estadisticas = () => {
     return acc;
   }, []);
   const statusData = [{
-    name: 'Pagado',
-    value: filteredVisits.filter(v => v.status === 'paid').length,
+    name: 'Cobrado',
+    value: filteredVisits.filter(v => v.billing_status === 'collected').length,
     color: 'hsl(var(--success))'
   }, {
-    name: 'Pendiente',
-    value: filteredVisits.filter(v => v.status === 'pending').length,
+    name: 'Pendiente Cobro',
+    value: filteredVisits.filter(v => v.billing_status === 'pending').length,
     color: 'hsl(var(--warning))'
   }];
   return <div className="space-y-6">
@@ -149,10 +185,10 @@ const Estadisticas = () => {
 
       {/* Summary Cards with Gradients */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Ingresos Totales" value={`₡${totalEarnings.toLocaleString()}`} icon={DollarSign} gradient="primary" subtitle="Total ganado de todas las visitas" />
-        <StatCard title="Por Cobrar" value={`₡${pendingPayments.toLocaleString()}`} icon={Clock} gradient="warning" subtitle="Visitas pendientes de pago" />
-        <StatCard title="Por Pagar a Trabajadores" value={`₡${estimatedWorkerPayments.toLocaleString()}`} icon={Users} gradient="danger" subtitle="Total a pagar a trabajadores" />
-        <StatCard title="Ganancia Neta" value={`₡${netProfit.toLocaleString()}`} icon={TrendingUp} gradient="success" subtitle="Ingresos - Pagos" />
+        <StatCard title="Cobros Realizados" value={`₡${totalCollected.toLocaleString()}`} icon={DollarSign} gradient="success" subtitle="Total cobrado de visitas" />
+        <StatCard title="Por Cobrar" value={`₡${pendingCollections.toLocaleString()}`} icon={Clock} gradient="warning" subtitle="Visitas pendientes de cobro" />
+        <StatCard title="Pagado a Trabajadores" value={`₡${paidToWorkers.toLocaleString()}`} icon={Users} gradient="danger" subtitle="Total pagado a trabajadores" />
+        <StatCard title="Ganancia Neta" value={`₡${netProfit.toLocaleString()}`} icon={TrendingUp} gradient="success" subtitle="Cobrado - Pagado" />
       </div>
 
       {/* Charts Section */}
@@ -223,15 +259,15 @@ const Estadisticas = () => {
                 <p className="text-2xl font-bold font-mono mt-1">{filteredVisits.length}</p>
               </div>
               <div className="p-4 rounded-lg bg-success/10">
-                <p className="text-sm font-medium text-success">Visitas Pagadas</p>
+                <p className="text-sm font-medium text-success">Visitas Cobradas</p>
                 <p className="text-2xl font-bold font-mono mt-1 text-success">
-                  {filteredVisits.filter(v => v.status === 'paid').length}
+                  {filteredVisits.filter(v => v.billing_status === 'collected').length}
                 </p>
               </div>
               <div className="p-4 rounded-lg bg-warning/10">
-                <p className="text-sm font-medium text-warning">Visitas Pendientes</p>
+                <p className="text-sm font-medium text-warning">Visitas Pendientes Cobro</p>
                 <p className="text-2xl font-bold font-mono mt-1 text-warning">
-                  {filteredVisits.filter(v => v.status === 'pending').length}
+                  {filteredVisits.filter(v => v.billing_status === 'pending').length}
                 </p>
               </div>
             </div>
