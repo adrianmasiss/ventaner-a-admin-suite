@@ -35,9 +35,12 @@ interface VisitFormProps {
   onSuccess: () => void;
 }
 const COST_PER_WORKER_PER_VISIT = 20000;
+
 interface Worker {
   id: string;
   full_name: string;
+  payment_rate: number;
+  payment_type: string;
 }
 export const VisitForm = ({
   open,
@@ -67,10 +70,11 @@ export const VisitForm = ({
     }
   }, [editingVisit, open]);
   const fetchWorkers = async () => {
-    const {
-      data,
-      error
-    } = await supabase.from("workers").select("id, full_name").order("full_name");
+    const { data, error } = await supabase
+      .from("workers")
+      .select("id, full_name, payment_rate, payment_type")
+      .order("full_name");
+    
     if (!error && data) {
       setWorkers(data);
     }
@@ -169,22 +173,36 @@ export const VisitForm = ({
       const visitDate = new Date(startTime).toISOString().split('T')[0]; // Get YYYY-MM-DD
 
       for (const workerId of selectedWorkers) {
+        // Get worker's payment rate
+        const worker = workers.find(w => w.id === workerId);
+        if (!worker) continue;
+
+        // Calculate payment based on worker's rate and type
+        let workerPayment = worker.payment_rate; // For daily type, use rate as is
+        if (worker.payment_type === "hourly") {
+          workerPayment = worker.payment_rate * visitData.totalHours;
+        }
+
         // Check if worker already has a payment record for this date
-        const {
-          data: existingPayment
-        } = await supabase.from("visit_workers").select("id, visits!inner(start_time)").eq("worker_id", workerId).gte("visits.start_time", `${visitDate}T00:00:00`).lte("visits.start_time", `${visitDate}T23:59:59`).maybeSingle();
+        const { data: existingPayment } = await supabase
+          .from("visit_workers")
+          .select("id, visits!inner(start_time)")
+          .eq("worker_id", workerId)
+          .gte("visits.start_time", `${visitDate}T00:00:00`)
+          .lte("visits.start_time", `${visitDate}T23:59:59`)
+          .maybeSingle();
 
         // Only create payment if worker doesn't have one for this date
         if (!existingPayment) {
-          const {
-            error: visitWorkersError
-          } = await supabase.from("visit_workers").insert({
-            visit_id: visitId,
-            worker_id: workerId,
-            amount: COST_PER_WORKER_PER_VISIT,
-            // Fixed daily rate: ₡20,000
-            payment_status: "pending"
-          });
+          const { error: visitWorkersError } = await supabase
+            .from("visit_workers")
+            .insert({
+              visit_id: visitId,
+              worker_id: workerId,
+              amount: workerPayment,
+              payment_status: "pending"
+            });
+          
           if (visitWorkersError) {
             error = visitWorkersError;
             break;
