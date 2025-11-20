@@ -17,8 +17,8 @@ import logo from "@/assets/logo.png";
 
 const menuItems = [
   { title: "Listado de Visitas", url: "/dashboard/visitas", icon: Calendar },
-  { title: "Trabajadores", url: "/dashboard/trabajadores", icon: Users },
-  { title: "Estadísticas", url: "/dashboard/estadisticas", icon: BarChart3 },
+  { title: "Gestión Trabajadores", url: "/dashboard/gestion-trabajadores", icon: Users },
+  { title: "Panel Trabajador", url: "/dashboard/panel-trabajador", icon: BarChart3 },
 ];
 
 const financialItems = [

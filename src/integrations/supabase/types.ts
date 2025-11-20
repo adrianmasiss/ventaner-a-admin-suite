@@ -102,13 +102,15 @@ export type Database = {
             foreignKeyName: "visit_workers_worker_id_fkey"
             columns: ["worker_id"]
             isOneToOne: false
-            referencedRelation: "workers"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
       }
       visits: {
         Row: {
+          additional_expenses: number | null
+          additional_expenses_description: string | null
           billing_date: string | null
           billing_status: string
           created_at: string
@@ -125,6 +127,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          additional_expenses?: number | null
+          additional_expenses_description?: string | null
           billing_date?: string | null
           billing_status?: string
           created_at?: string
@@ -141,6 +145,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          additional_expenses?: number | null
+          additional_expenses_description?: string | null
           billing_date?: string | null
           billing_status?: string
           created_at?: string
@@ -158,41 +164,19 @@ export type Database = {
         }
         Relationships: []
       }
-      workers: {
-        Row: {
-          created_at: string
-          full_name: string
-          id: string
-          payment_rate: number
-          payment_type: string
-          phone: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          full_name: string
-          id?: string
-          payment_rate: number
-          payment_type: string
-          phone: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          full_name?: string
-          id?: string
-          payment_rate?: number
-          payment_type?: string
-          phone?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      calculate_worker_daily_payment: {
+        Args: { _end_date: string; _start_date: string; _worker_id: string }
+        Returns: {
+          daily_payment: number
+          visit_count: number
+          work_date: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -202,7 +186,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "viewer"
+      app_role: "admin" | "worker"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -330,7 +314,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "viewer"],
+      app_role: ["admin", "worker"],
     },
   },
 } as const
