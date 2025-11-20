@@ -49,7 +49,7 @@ const HistorialFinanciero = () => {
         amount,
         payment_date,
         payment_method,
-        workers (
+        profiles!visit_workers_worker_id_fkey (
           full_name
         ),
         visits (
@@ -75,7 +75,7 @@ const HistorialFinanciero = () => {
 
     const formatted = data.map((vw: any) => ({
       id: vw.id,
-      worker_name: vw.workers.full_name,
+      worker_name: vw.profiles.full_name,
       visit_date: vw.visits.start_time,
       amount: Number(vw.amount),
       payment_date: vw.payment_date,

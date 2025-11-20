@@ -41,7 +41,7 @@ const PagosTrabajadores = () => {
         visit_id,
         amount,
         payment_status,
-        workers (
+        profiles!visit_workers_worker_id_fkey (
           full_name
         ),
         visits (
@@ -61,7 +61,7 @@ const PagosTrabajadores = () => {
       if (!acc[workerId]) {
         acc[workerId] = {
           worker_id: workerId,
-          worker_name: vw.workers.full_name,
+          worker_name: vw.profiles.full_name,
           pending_amount: 0,
           pending_visits: []
         };

@@ -53,6 +53,8 @@ export const VisitForm = ({
   const [isLoading, setIsLoading] = useState(false);
   const [workers, setWorkers] = useState<Worker[]>([]);
   const [selectedWorkers, setSelectedWorkers] = useState<string[]>([]);
+  const [additionalExpenses, setAdditionalExpenses] = useState(0);
+  const [additionalExpensesDescription, setAdditionalExpensesDescription] = useState("");
   useEffect(() => {
     fetchWorkers();
   }, []);
@@ -97,6 +99,8 @@ export const VisitForm = ({
     setDescription("");
     setNumWorkers(2);
     setSelectedWorkers([]);
+    setAdditionalExpenses(0);
+    setAdditionalExpensesDescription("");
   };
   const handleWorkerToggle = (workerId: string) => {
     setSelectedWorkers(prev => prev.includes(workerId) ? prev.filter(id => id !== workerId) : [...prev, workerId]);
@@ -149,8 +153,10 @@ export const VisitForm = ({
       num_workers: selectedWorkers.length,
       total_hours: visitData.totalHours,
       num_visits: visitData.numVisits,
-      total_cost: visitData.totalCost,
-      status: "pending"
+      total_cost: visitData.totalCost + additionalExpenses,
+      status: "pending",
+      additional_expenses: additionalExpenses,
+      additional_expenses_description: additionalExpensesDescription || null
     };
     let visitId: string | null = null;
     let error;
@@ -243,6 +249,27 @@ export const VisitForm = ({
             <Textarea id="description" placeholder="Detalles de la visita..." value={description} onChange={e => setDescription(e.target.value)} rows={3} className="bg-white text-black" />
           </div>
 
+          <div className="space-y-2">
+            <Label htmlFor="additional-expenses" className="text-black">Gastos Adicionales (Uber, etc.)</Label>
+            <Input 
+              id="additional-expenses"
+              type="number" 
+              value={additionalExpenses} 
+              onChange={e => setAdditionalExpenses(Number(e.target.value))} 
+              placeholder="0"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="expenses-description" className="text-black">Descripción de Gastos</Label>
+            <Input 
+              id="expenses-description"
+              value={additionalExpensesDescription} 
+              onChange={e => setAdditionalExpensesDescription(e.target.value)} 
+              placeholder="Ej: Uber de regreso"
+            />
+          </div>
+
           {previewData && <div className="bg-muted p-4 rounded-lg space-y-2">
               <h4 className="font-semibold text-black">Resumen Automático:</h4>
               <p className="text-sm text-black">
@@ -251,8 +278,16 @@ export const VisitForm = ({
               <p className="text-sm text-black">
                 Número de Visitas (cada 3 horas): <strong>{previewData.numVisits}</strong>
               </p>
+              <p className="text-sm text-black">
+                Costo Base: ₡{previewData.totalCost.toLocaleString()}
+              </p>
+              {additionalExpenses > 0 && (
+                <p className="text-sm text-black">
+                  Gastos Adicionales: ₡{additionalExpenses.toLocaleString()}
+                </p>
+              )}
               <p className="text-sm text-lg font-bold text-black">
-                Costo Total: ₡{previewData.totalCost.toLocaleString()}
+                Costo Total: ₡{(previewData.totalCost + additionalExpenses).toLocaleString()}
               </p>
             </div>}
 
